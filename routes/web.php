@@ -9,4 +9,4 @@ use Illuminate\Support\Facades\Route;
 
 //Route::get('/','FundingController');
 
-Route::post('/', [FundingController::class, 'index']);
+Route::post('/', [FundingController::class, 'handle']);

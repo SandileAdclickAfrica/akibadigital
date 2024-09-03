@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Log;
 
 class FundingController extends Controller
 {
+
+    public function handle( Request $request ): \Illuminate\Http\JsonResponse
+    {
+        Log::info('Webhook data:', (array) $request->getContent());
+        return response()->json(['detail' => 'Success'], 200);
+    }
+
     public function index( Request $request ){
 
 
