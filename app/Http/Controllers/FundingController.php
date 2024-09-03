@@ -5,17 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class FundingController extends Controller
 {
-    public function index(){
+    public function index( Request $request ){
+
+
+        $data = $request->all();
+
+        Log::info('Webhook data:', $data);
 
 
 //        dd( json_decode($this->getImageAsBase64('image.png')->content())->base64);
 
         $news_image = public_path('/images/image.png');
 
-//        dd( $this->getImageAsBase64( 'image.png' )->content() );
+        dd( 'Test' );
 //        dd( json_decode($this->getImageAsBase64('image.png')->content())->base64 );
 
         // URL
