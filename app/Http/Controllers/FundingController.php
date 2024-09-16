@@ -94,9 +94,19 @@ class FundingController extends Controller
 
     }
 
+    public function webhook(Request $request)
+    {
+        $data = $request->all();
+
+        dd( $data );
+
+//        Log::info('Webhook data Sandile :');
+    }
 
     public function test(Request $request)
     {
+        Log::info('Webhook data');
+
         $publicPath = public_path('/images/');
 
         $apiURL = 'https://enterprise.akibaone.com/api/v2/widget/save/';

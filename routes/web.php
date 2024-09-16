@@ -9,4 +9,4 @@ use Illuminate\Support\Facades\Route;
 
 //Route::get('/','FundingController');
 
-Route::get('/', [FundingController::class, 'test']);
+Route::post('/', [FundingController::class, 'webhook']);
