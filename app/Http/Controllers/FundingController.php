@@ -108,15 +108,10 @@ class FundingController extends Controller
 
         // Perform any processing (e.g., saving to the database, sending an email, etc.)
 
-        Log::info($request->all());
+        Log::info('Fluent Forms Webhook Data:', $data);
 
         // Optionally return a response
-        return response()->json([
-            'message' => 'Form submitted successfully!',
-            'data' => $data
-        ], 200);
-
-
+        return response()->json(['status' => 'success'], 200);
     }
 
     public function test(Request $request)
