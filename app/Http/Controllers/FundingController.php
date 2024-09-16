@@ -107,7 +107,11 @@ class FundingController extends Controller
 
 //        dd( $data );
 
-        Log::info('Webhook data Sandile :'.$request->getContent());
+        if ( $request->post() ){
+            Log::info('get form content');
+        }
+
+
     }
 
     public function test(Request $request)
