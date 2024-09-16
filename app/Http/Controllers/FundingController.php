@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -18,18 +21,12 @@ class FundingController extends Controller
 
     public function index( Request $request ){
 
-
         $data = $request->all();
 
         Log::info('Webhook data:', $data);
 
-
-//        dd( json_decode($this->getImageAsBase64('image.png')->content())->base64);
-
-        $news_image = public_path('/images/image.png');
-
-        dd( 'Test' );
-//        dd( json_decode($this->getImageAsBase64('image.png')->content())->base64 );
+//        $basePath = base_path().'/public/images/';
+        $publicPath = public_path('/images/');
 
         // URL
         $apiURL = 'https://enterprise.akibaone.com/api/v2/widget/save/';
@@ -37,26 +34,14 @@ class FundingController extends Controller
         // POST Data
         $postInput = [
             'loan'                      => '20000',
-            'email'                     => 'rafek42477t43estregf@avashost.com',
+            'email'                     => 'test09f@adclickafrica.com',
             'contact_number'            => '0660070724',
             'type'                      => 'Business',
             'step'                      => 'SME South Africa',
-            'business_reg_numberpair'   => 'K20174557307',
+            'business_reg_number'       => 'K20174557307',
             'first_name'                => 'Sandile API',
             'last_name'                 => 'API',
             'company_name'              => 'Adclick Test',
-            [
-                'name' => 'identity',
-//                'file' => json_decode($this->getImageAsBase64('image.png')->content())->base64
-                'file' => $this->getImageAsBase64( 'image.png' )->content()
-            ],
-            [
-                'name' => 'bankStatement',
-//                'file' => json_decode($this->getImageAsBase64('image.png')->content())->base64
-                'file' => $this->getImageAsBase64( 'image.png' )->content()
-            ],
-//            'identity'                  => $news_image,
-//            'bankStatement'             => 'pdf',
             'fundingType'               => 'Working Capital (General)',
             'loanDuration'              => 'Very short term (3 months or less)',
             'businessYears'             => '0 - 1 Year',
@@ -67,19 +52,34 @@ class FundingController extends Controller
             'customerReference'         => 'customerReference',
             'IDnumber'                  => '9408346588086',
             'city'                      => 'Gauteng',
-            'postalCode'                => '1724'
-        ];
+            'postalCode'                => '1724',
+            [
+                'name'     => 'identity', // Name of the file field in the form
+                'contents' => fopen($publicPath . 'image.png', 'r'), // File path
+                'filename' => 'image.png', // Optional: filename to be sent
+            ],
+    ];
+
+//        dd( $postInput );
 
         // Headers
         $headers = [
 //            'Content-Type'  => 'multipart/form-data',
             'X-Secret-Key'  => 'Pb7n4nAe.Sqw8CLEkc0MAdr5sOOIMJZUvrXNS2tj3',
-//            'Accept'        => 'application/json',
+            'Accept'        => 'application/json',
 //            'X-CSRFToken'   => 'Pb7n4nAe.Sqw8CLEkc0MAdr5sOOIMJZUvrXNS2tj3'
         ];
 
+
+
+
         try {
-            $response = Http::withHeaders($headers)->post($apiURL, $postInput);
+            $response = Http::withHeaders( $headers )->post(
+                $apiURL,
+                [
+                    'multipart' => $postInput
+                ]
+            );
 
             $statusCode = $response->status();
             $responseBody = json_decode($response->getBody(), true);
@@ -88,12 +88,145 @@ class FundingController extends Controller
 
             dd($responseBody); // body response
 
-            
         } catch (ConnectionException $e) {
 
         }
 
     }
+
+
+    public function test(Request $request)
+    {
+        $publicPath = public_path('/images/');
+
+        $apiURL = 'https://enterprise.akibaone.com/api/v2/widget/save/';
+
+        $postInput = [
+            [
+                'name'     => 'loan',
+                'contents' => '20000',
+            ],
+            [
+                'name'     => 'email',
+                'contents' => 'msentricreatives@gmail.com',
+            ],
+            [
+                'name'     => 'contact_number',
+                'contents' => '0660070724',
+            ],
+            [
+                'name'     => 'type',
+                'contents' => 'Business',
+            ],
+            [
+                'name'     => 'step',
+                'contents' => 'SME South Africa',
+            ],
+            [
+                'name'     => 'business_reg_number',
+                'contents' => 'K20174557307',
+            ],
+            [
+                'name'     => 'first_name',
+                'contents' => 'Sandile',
+            ],
+            [
+                'name'     => 'last_name',
+                'contents' => 'Msentri',
+            ],
+            [
+                'name'     => 'company_name',
+                'contents' => 'Adclick Test',
+            ],
+            [
+                'name'     => 'fundingType',
+                'contents' => 'Working Capital (General)',
+            ],
+            [
+                'name'     => 'loanDuration',
+                'contents' => 'Very short term (3 months or less)',
+            ],
+            [
+                'name'     => 'businessYears',
+                'contents' => '0 - 1 Year',
+            ],
+            [
+                'name'     => 'monthlyTurnOver',
+                'contents' => 'R40k - R100k',
+            ],
+            [
+                'name'     => 'bank',
+                'contents' => 'FNB',
+            ],
+            [
+                'name'     => 'accountType',
+                'contents' => 'cheque',
+            ],
+            [
+                'name'     => 'accountOwner',
+                'contents' => 'business',
+            ],
+            [
+                'name'     => 'customerReference',
+                'contents' => 'customerReference',
+            ],
+            [
+                'name'     => 'IDnumber',
+                'contents' => '9408346588086',
+            ],
+            [
+                'name'     => 'city',
+                'contents' => 'Gauteng',
+            ],
+            [
+                'name'     => 'postalCode',
+                'contents' => '1724',
+            ],
+            [
+                'name'     => 'identity', // Name of the file field in the form
+                'contents' => fopen($publicPath . 'image.png', 'r'), // File path
+                'filename' => 'image.png', // Optional: filename to be sent
+            ],
+            // Uncomment and add more files as needed
+             [
+                 'name'     => 'bankStatement', // Name of the file field in the form
+                 'contents' => fopen($publicPath . 'image.png', 'r'), // File path
+                 'filename' => 'image.png', // Optional: filename to be sent
+             ],
+        ];
+
+// Headers
+        $headers = [
+            'X-Secret-Key' => 'Pb7n4nAe.Sqw8CLEkc0MAdr5sOOIMJZUvrXNS2tj3',
+            'Accept'      => 'application/json',
+        ];
+
+// Initialize Guzzle Client
+        $client = new Client();
+
+        try {
+            $response = $client->post($apiURL, [
+                'headers' => $headers,
+                'multipart' => $postInput,
+            ]);
+
+            $statusCode = $response->getStatusCode();
+            $responseBody = json_decode($response->getBody(), true);
+
+//            echo $statusCode;  // status code
+
+            dd($responseBody); // body response
+
+        } catch (RequestException $e) {
+            if ($e->hasResponse()) {
+                $responseBody = $e->getResponse()->getBody()->getContents();
+                dd(json_decode($responseBody, true));
+            } else {
+                dd($e->getMessage());
+            }
+        }
+    }
+
 
     public function getImageAsBase64($filename): \Illuminate\Http\JsonResponse
     {
