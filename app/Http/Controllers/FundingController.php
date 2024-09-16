@@ -103,12 +103,13 @@ class FundingController extends Controller
 
     public function webhook(Request $request)
     {
-//        $data = $request->json()->all();
+        $data = $request->json()->all();
 
 //        dd( $data );
 
         if ( $request->post() ){
             Log::info('get form content');
+            Log::info( json_encode($request->all()) );
         }
 
 
