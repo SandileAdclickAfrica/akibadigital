@@ -103,14 +103,18 @@ class FundingController extends Controller
 
     public function webhook(Request $request)
     {
-        $data = $request->json()->all();
+        // You can retrieve the form data like this:
+        $data = $request->all();
 
-//        dd( $data );
+        // Perform any processing (e.g., saving to the database, sending an email, etc.)
 
-        if ( $request->post() ){
-            Log::info('get form content');
-            Log::info( json_encode($request->all()) );
-        }
+        Log::info($request->all());
+
+        // Optionally return a response
+        return response()->json([
+            'message' => 'Form submitted successfully!',
+            'data' => $data
+        ], 200);
 
 
     }
