@@ -9,6 +9,7 @@ use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use PhpParser\Node\Expr\Array_;
 
 class FundingController extends Controller
 {
@@ -19,88 +20,94 @@ class FundingController extends Controller
         return response()->json(['detail' => 'Success'], 200);
     }
 
-    public function index( Request $request ){
+//    public function index( Request $request ){
+//
+//        $data = $request->all();
+//
+//        Log::info('Webhook data:', $data);
+//
+////        $basePath = base_path().'/public/images/';
+//        $publicPath = public_path('/images/');
+//
+//        // URL
+//        $apiURL = 'https://enterprise.akibaone.com/api/v2/widget/save/';
+//
+//        // POST Data
+//        $postInput = [
+//            'loan'                      => '20000',
+//            'email'                     => 'test09f@adclickafrica.com',
+//            'contact_number'            => '0660070724',
+//            'type'                      => 'Business',
+//            'step'                      => 'SME South Africa',
+//            'business_reg_number'       => 'K20174557307',
+//            'first_name'                => 'Sandile API',
+//            'last_name'                 => 'API',
+//            'company_name'              => 'Adclick Test',
+//            'fundingType'               => 'Working Capital (General)',
+//            'loanDuration'              => 'Very short term (3 months or less)',
+//            'businessYears'             => '0 - 1 Year',
+//            'monthlyTurnOver'           => 'R40k - R100k',
+//            'bank'                      => 'FNB',
+//            'accountType'               => 'cheque',
+//            'accountOwner'              => 'business',
+//            'customerReference'         => 'customerReference',
+//            'IDnumber'                  => '9408346588086',
+//            'city'                      => 'Gauteng',
+//            'postalCode'                => '1724',
+//            [
+//                'name'     => 'identity', // Name of the file field in the form
+//                'contents' => fopen($publicPath . 'image.png', 'r'), // File path
+//                'filename' => 'image.png', // Optional: filename to be sent
+//            ],
+//    ];
+//
+////        dd( $postInput );
+//
+//        // Headers
+//        $headers = [
+////            'Content-Type'  => 'multipart/form-data',
+//            'X-Secret-Key'  => 'Pb7n4nAe.Sqw8CLEkc0MAdr5sOOIMJZUvrXNS2tj3',
+//            'Accept'        => 'application/json',
+////            'X-CSRFToken'   => 'Pb7n4nAe.Sqw8CLEkc0MAdr5sOOIMJZUvrXNS2tj3'
+//        ];
+//
+//
+//
+//
+//        try {
+//            $response = Http::withHeaders( $headers )->post(
+//                $apiURL,
+//                [
+//                    'multipart' => $postInput
+//                ]
+//            );
+//
+//            $statusCode = $response->status();
+//            $responseBody = json_decode($response->getBody(), true);
+//
+//            echo $statusCode;  // status code
+//
+//            dd($responseBody); // body response
+//
+//        } catch (ConnectionException $e) {
+//
+//        }
+//
+//    }
 
-        $data = $request->all();
 
-        Log::info('Webhook data:', $data);
-
-//        $basePath = base_path().'/public/images/';
-        $publicPath = public_path('/images/');
-
-        // URL
-        $apiURL = 'https://enterprise.akibaone.com/api/v2/widget/save/';
-
-        // POST Data
-        $postInput = [
-            'loan'                      => '20000',
-            'email'                     => 'test09f@adclickafrica.com',
-            'contact_number'            => '0660070724',
-            'type'                      => 'Business',
-            'step'                      => 'SME South Africa',
-            'business_reg_number'       => 'K20174557307',
-            'first_name'                => 'Sandile API',
-            'last_name'                 => 'API',
-            'company_name'              => 'Adclick Test',
-            'fundingType'               => 'Working Capital (General)',
-            'loanDuration'              => 'Very short term (3 months or less)',
-            'businessYears'             => '0 - 1 Year',
-            'monthlyTurnOver'           => 'R40k - R100k',
-            'bank'                      => 'FNB',
-            'accountType'               => 'cheque',
-            'accountOwner'              => 'business',
-            'customerReference'         => 'customerReference',
-            'IDnumber'                  => '9408346588086',
-            'city'                      => 'Gauteng',
-            'postalCode'                => '1724',
-            [
-                'name'     => 'identity', // Name of the file field in the form
-                'contents' => fopen($publicPath . 'image.png', 'r'), // File path
-                'filename' => 'image.png', // Optional: filename to be sent
-            ],
-    ];
-
-//        dd( $postInput );
-
-        // Headers
-        $headers = [
-//            'Content-Type'  => 'multipart/form-data',
-            'X-Secret-Key'  => 'Pb7n4nAe.Sqw8CLEkc0MAdr5sOOIMJZUvrXNS2tj3',
-            'Accept'        => 'application/json',
-//            'X-CSRFToken'   => 'Pb7n4nAe.Sqw8CLEkc0MAdr5sOOIMJZUvrXNS2tj3'
-        ];
-
-
-
-
-        try {
-            $response = Http::withHeaders( $headers )->post(
-                $apiURL,
-                [
-                    'multipart' => $postInput
-                ]
-            );
-
-            $statusCode = $response->status();
-            $responseBody = json_decode($response->getBody(), true);
-
-            echo $statusCode;  // status code
-
-            dd($responseBody); // body response
-
-        } catch (ConnectionException $e) {
-
-        }
-
+    public function index()
+    {
+        return view('webhook');
     }
 
     public function webhook(Request $request)
     {
-        $data = $request->all();
+//        $data = $request->json()->all();
 
-        dd( $data );
+//        dd( $data );
 
-//        Log::info('Webhook data Sandile :');
+        Log::info('Webhook data Sandile :'.$request->getContent());
     }
 
     public function test(Request $request)
