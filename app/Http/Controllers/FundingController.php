@@ -123,6 +123,7 @@ class FundingController extends Controller
         $email                      = $request->input('email');
         $first_name                 = $request->input('first_name');
         $last_name                  = $request->input('last_name');
+
         $bankStatement              = $request->input('bankStatement');
         $identity                   = $request->input('identity');
 
@@ -159,21 +160,21 @@ class FundingController extends Controller
                 'name'     => 'accountOwner',
                 'contents' => 'business',
             ],
-            [
-                'name'     => 'identity', // Name of the file field in the form
-//                'contents' => fopen($identity, 'r'), // File path
-                'contents' => $identity, // File path
-//                'contents' => $identity,
-//                'filename' => 'image.png', // Optional: filename to be sent
-            ],
-            // Uncomment and add more files as needed
-            [
-                'name'     => 'bankStatement', // Name of the file field in the form
-//                    'contents' => fopen($bankStatement, 'r'), // File path
-                    'contents' => $bankStatement, // File path
-//                'contents' => $bankStatement, // File path
-//                'filename' => 'image.png', // Optional: filename to be sent
-            ],
+//            [
+//                'name'     => 'identity', // Name of the file field in the form
+////                'contents' => fopen($identity, 'r'), // File path
+//                'contents' => $identity, // File path
+////                'contents' => $identity,
+////                'filename' => 'image.png', // Optional: filename to be sent
+//            ],
+//            // Uncomment and add more files as needed
+//            [
+//                'name'     => 'bankStatement', // Name of the file field in the form
+////                    'contents' => fopen($bankStatement, 'r'), // File path
+//                    'contents' => $bankStatement, // File path
+////                'contents' => $bankStatement, // File path
+////                'filename' => 'image.png', // Optional: filename to be sent
+//            ],
         ];
 
         // Headers
