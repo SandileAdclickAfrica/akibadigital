@@ -113,155 +113,149 @@ class FundingController extends Controller
         return response()->json(['status' => 'success', 'received' => $name]);
     }
 
+
+
     public function webhook(Request $request)
     {
-        // You can retrieve the form data like this:
-        $data = $request->all();
+        if( $request->method() == 'POST' ) {
+            Log::info('Webhook data');
 
-        // Perform any processing (e.g., saving to the database, sending an email, etc.)
+            $publicPath = public_path('/images/');
 
-        Log::info('Fluent Forms Webhook Data:', $data);
+            $apiURL = 'https://enterprise.akibaone.com/api/v2/widget/save/';
 
-        // Optionally return a response
-        return response()->json(['status' => 'success'], 200);
-    }
+            $postInput = [
+                [
+                    'name'     => 'loan',
+                    'contents' => '20000',
+                ],
+                [
+                    'name'     => 'email',
+                    'contents' => 'msentricreatives@gmail.com',
+                ],
+                [
+                    'name'     => 'contact_number',
+                    'contents' => '0660070724',
+                ],
+                [
+                    'name'     => 'type',
+                    'contents' => 'Business',
+                ],
+                [
+                    'name'     => 'step',
+                    'contents' => 'SME South Africa',
+                ],
+                [
+                    'name'     => 'business_reg_number',
+                    'contents' => 'K20174557307',
+                ],
+                [
+                    'name'     => 'first_name',
+                    'contents' => 'Sandile',
+                ],
+                [
+                    'name'     => 'last_name',
+                    'contents' => 'Msentri',
+                ],
+                [
+                    'name'     => 'company_name',
+                    'contents' => 'Adclick Test',
+                ],
+                [
+                    'name'     => 'fundingType',
+                    'contents' => 'Working Capital (General)',
+                ],
+                [
+                    'name'     => 'loanDuration',
+                    'contents' => 'Very short term (3 months or less)',
+                ],
+                [
+                    'name'     => 'businessYears',
+                    'contents' => '0 - 1 Year',
+                ],
+                [
+                    'name'     => 'monthlyTurnOver',
+                    'contents' => 'R40k - R100k',
+                ],
+                [
+                    'name'     => 'bank',
+                    'contents' => 'FNB',
+                ],
+                [
+                    'name'     => 'accountType',
+                    'contents' => 'cheque',
+                ],
+                [
+                    'name'     => 'accountOwner',
+                    'contents' => 'business',
+                ],
+                [
+                    'name'     => 'customerReference',
+                    'contents' => 'customerReference',
+                ],
+                [
+                    'name'     => 'IDnumber',
+                    'contents' => '9408346588086',
+                ],
+                [
+                    'name'     => 'city',
+                    'contents' => 'Gauteng',
+                ],
+                [
+                    'name'     => 'postalCode',
+                    'contents' => '1724',
+                ],
+                [
+                    'name'     => 'identity', // Name of the file field in the form
+                    'contents' => fopen($publicPath . 'image.png', 'r'), // File path
+                    'filename' => 'image.png', // Optional: filename to be sent
+                ],
+                // Uncomment and add more files as needed
+                [
+                    'name'     => 'bankStatement', // Name of the file field in the form
+                    'contents' => fopen($publicPath . 'image.png', 'r'), // File path
+                    'filename' => 'image.png', // Optional: filename to be sent
+                ],
+            ];
 
-    public function test(Request $request)
-    {
-        Log::info('Webhook data');
+            // Headers
+            $headers = [
+                'X-Secret-Key' => env('AKIBA_DIGITAL_X_SECRET_KEY'),
+                'Accept'      => 'application/json',
+            ];
 
-        $publicPath = public_path('/images/');
+            // Initialize Guzzle Client
+            $client = new Client();
 
-        $apiURL = 'https://enterprise.akibaone.com/api/v2/widget/save/';
+            try {
+                $response = $client->post( env('akiba_digital_endpoint_url') , [
+                    'headers' => $headers,
+                    'multipart' => $postInput,
+                ]);
 
-        $postInput = [
-            [
-                'name'     => 'loan',
-                'contents' => '20000',
-            ],
-            [
-                'name'     => 'email',
-                'contents' => 'msentricreatives@gmail.com',
-            ],
-            [
-                'name'     => 'contact_number',
-                'contents' => '0660070724',
-            ],
-            [
-                'name'     => 'type',
-                'contents' => 'Business',
-            ],
-            [
-                'name'     => 'step',
-                'contents' => 'SME South Africa',
-            ],
-            [
-                'name'     => 'business_reg_number',
-                'contents' => 'K20174557307',
-            ],
-            [
-                'name'     => 'first_name',
-                'contents' => 'Sandile',
-            ],
-            [
-                'name'     => 'last_name',
-                'contents' => 'Msentri',
-            ],
-            [
-                'name'     => 'company_name',
-                'contents' => 'Adclick Test',
-            ],
-            [
-                'name'     => 'fundingType',
-                'contents' => 'Working Capital (General)',
-            ],
-            [
-                'name'     => 'loanDuration',
-                'contents' => 'Very short term (3 months or less)',
-            ],
-            [
-                'name'     => 'businessYears',
-                'contents' => '0 - 1 Year',
-            ],
-            [
-                'name'     => 'monthlyTurnOver',
-                'contents' => 'R40k - R100k',
-            ],
-            [
-                'name'     => 'bank',
-                'contents' => 'FNB',
-            ],
-            [
-                'name'     => 'accountType',
-                'contents' => 'cheque',
-            ],
-            [
-                'name'     => 'accountOwner',
-                'contents' => 'business',
-            ],
-            [
-                'name'     => 'customerReference',
-                'contents' => 'customerReference',
-            ],
-            [
-                'name'     => 'IDnumber',
-                'contents' => '9408346588086',
-            ],
-            [
-                'name'     => 'city',
-                'contents' => 'Gauteng',
-            ],
-            [
-                'name'     => 'postalCode',
-                'contents' => '1724',
-            ],
-            [
-                'name'     => 'identity', // Name of the file field in the form
-                'contents' => fopen($publicPath . 'image.png', 'r'), // File path
-                'filename' => 'image.png', // Optional: filename to be sent
-            ],
-            // Uncomment and add more files as needed
-             [
-                 'name'     => 'bankStatement', // Name of the file field in the form
-                 'contents' => fopen($publicPath . 'image.png', 'r'), // File path
-                 'filename' => 'image.png', // Optional: filename to be sent
-             ],
-        ];
+                $statusCode = $response->getStatusCode();
+                $responseBody = json_decode($response->getBody(), true);
 
-// Headers
-        $headers = [
-            'X-Secret-Key' => 'Pb7n4nAe.Sqw8CLEkc0MAdr5sOOIMJZUvrXNS2tj3',
-            'Accept'      => 'application/json',
-        ];
+                //echo $statusCode;  // status code
 
-// Initialize Guzzle Client
-        $client = new Client();
+                //dd($responseBody); // body response
 
-        try {
-            $response = $client->post($apiURL, [
-                'headers' => $headers,
-                'multipart' => $postInput,
-            ]);
+                return $responseBody;
 
-            $statusCode = $response->getStatusCode();
-            $responseBody = json_decode($response->getBody(), true);
-
-//            echo $statusCode;  // status code
-
-//            dd($responseBody); // body response
-
-            return $responseBody;
-
-        } catch (RequestException $e) {
-            if ($e->hasResponse()) {
-                $responseBody = $e->getResponse()->getBody()->getContents();
-                return json_decode($responseBody, true);
-            } else {
-                return $e->getMessage();
+            } catch (RequestException $e) {
+                if ($e->hasResponse()) {
+                    $responseBody = $e->getResponse()->getBody()->getContents();
+                    return json_decode($responseBody, true);
+                } else {
+                    return $e->getMessage();
+                }
             }
         }
-    }
 
+        if ($request->isMethod('get')) {
+            return response()->json(['message' => 'This is a GET request']);
+        }
+    }
 
     public function getImageAsBase64($filename): \Illuminate\Http\JsonResponse
     {
