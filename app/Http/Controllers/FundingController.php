@@ -136,12 +136,17 @@ class FundingController extends Controller
             $bank                       = $request->input('bank');
             $accountType                = $request->input('accountType');
             $accountOwner               = $request->input('accountOwner');
-            $bankStatement              = $request->input('bankStatement');
+
             $customerReference          = $request->input('customerReference');
             $IDnumber                   = $request->input('IDnumber');
             $city                       = $request->input('city');
             $postalCode                 = $request->input('postalCode');
-            $identity                   = $request->input('identity');
+
+//            $bankStatement              = $request->input('bankStatement');
+//            $identity                   = $request->input('identity');
+
+            $bankStatement              = $request->file('bankStatement');
+            $identity                   = $request->file('identity');
 
 
 //            \Log::info('Webhook received', $bankStatement->getPathname());
@@ -234,16 +239,14 @@ class FundingController extends Controller
                 ],
                 [
                     'name'     => 'identity', // Name of the file field in the form
-                    'contents' => fopen($publicPath . 'image.png', 'r'), // File path
-//                    'contents' => $identity,
-                    'filename' => 'image.png', // Optional: filename to be sent
+                    'contents' => fopen($identity->getPathname(), 'r'), // File path
+                    'filename' => $identity->getClientOriginalName(), // Optional: filename to be sent
                 ],
                 // Uncomment and add more files as needed
                 [
                     'name'     => 'bankStatement', // Name of the file field in the form
-                    'contents' => fopen($publicPath . 'image.png', 'r'), // File path
-//                    'contents' => $bankStatement, // File path
-                    'filename' => 'image.png', // Optional: filename to be sent
+                    'contents' => fopen($bankStatement->getPathname(), 'r'), // File path
+                    'filename' => $bankStatement->getClientOriginalName(), // Optional: filename to be sent
                 ],
             ];
 
