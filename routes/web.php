@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 //Route::get('/','FundingController');
 
 Route::get('/', [FundingController::class, 'index']);
-Route::post('/webhook', [FundingController::class, 'webhook'])->name('form.submit');
+Route::post('/webhook2', [FundingController::class, 'webhook'])->name('form.submit');
 //Route::match(['get', 'post'], '/webhook', [FundingController::class, 'webhook'])->name('form.submit');
 
 
