@@ -245,20 +245,19 @@ class FundingController extends Controller
                     'name'     => 'postalCode',
                     'contents' => $postalCode,
                 ],
-                'multipart' => [
-                    [
-                        'name'     => 'identity',
-                        'contents' => fopen($identity->getPathname(), 'r'),
-                        'filename' => $identity->getClientOriginalName(),
-                    ],
-                    [
-                        'name'     => 'bankStatement',
+                [
+                    'name'     => 'identity',
+                    'contents' => fopen($identity->getPathname(), 'r'),
+                    'filename' => $identity->getClientOriginalName(),
+                ],
+                [
+                    'name'     => 'bankStatement',
 //                        'contents' => $bankStatement,
 //                        'filename' => $bankStatement,
-                        'contents' => fopen($bankStatement->getPathname(), 'r'),
-                        'filename' => $bankStatement->getClientOriginalName(),
-                    ],
+                    'contents' => fopen($bankStatement->getPathname(), 'r'),
+                    'filename' => $bankStatement->getClientOriginalName(),
                 ],
+
 
 //                [
 //                    'name'     => 'identity', // Name of the file field in the form
