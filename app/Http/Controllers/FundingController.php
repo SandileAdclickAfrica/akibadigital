@@ -143,6 +143,10 @@ class FundingController extends Controller
             $postalCode                 = $request->input('postalCode');
             $identity                   = $request->input('identity');
 
+
+            \Log::info('Webhook received', $bankStatement->getPathname());
+            \Log::info('Webhook received', $bankStatement->getClientOriginalName());
+
             $publicPath = public_path('/images/');
 
             $apiURL = 'https://enterprise.akibaone.com/api/v2/widget/save/';
@@ -260,8 +264,7 @@ class FundingController extends Controller
             ];
 
 
-            \Log::info('Webhook received', $bankStatement->getPathname());
-            \Log::info('Webhook received', $bankStatement->getClientOriginalName());
+
 
             // Headers
             $headers = [
