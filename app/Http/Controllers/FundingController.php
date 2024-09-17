@@ -221,7 +221,7 @@ class FundingController extends Controller
 
             // Headers
             $headers = [
-                'X-Secret-Key' => env('AKIBA_DIGITAL_X_SECRET_KEY'),
+                'X-Secret-Key' => 'Pb7n4nAe.Sqw8CLEkc0MAdr5sOOIMJZUvrXNS2tj3',
                 'Accept'      => 'application/json',
             ];
 
@@ -229,7 +229,7 @@ class FundingController extends Controller
             $client = new Client();
 
             try {
-                $response = $client->post( env('akiba_digital_endpoint_url') , [
+                $response = $client->post( $apiURL , [
                     'headers' => $headers,
                     'multipart' => $postInput,
                 ]);
