@@ -113,17 +113,7 @@ class FundingController extends Controller
         return response()->json(['status' => 'success', 'received' => $name]);
     }
 
-    public function webhook2(Request $request)
-    {
-//        Log::info('Webhook received', $bankStatement->getPathname());
-//        Log::info('Webhook received', $bankStatement->getClientOriginalName());
 
-
-        $identity = $request->file('identity');
-//        \Log::info('Webhook received', $request->get('name'));
-        var_dump( $identity->getPathname() );
-        var_dump( $identity->getClientOriginalName() );
-    }
 
     public function webhook(Request $request)
     {
@@ -146,15 +136,12 @@ class FundingController extends Controller
             $bank                       = $request->input('bank');
             $accountType                = $request->input('accountType');
             $accountOwner               = $request->input('accountOwner');
-//            $bankStatement              = $request->input('bankStatement');
+            $bankStatement              = $request->input('bankStatement');
             $customerReference          = $request->input('customerReference');
             $IDnumber                   = $request->input('IDnumber');
             $city                       = $request->input('city');
             $postalCode                 = $request->input('postalCode');
-//            $identity                   = $request->input('identity');
-
-            $bankStatement = $request->file('bankStatement');
-            $identity = $request->file('identity');
+            $identity                   = $request->input('identity');
 
 
 //            \Log::info('Webhook received', $bankStatement->getPathname());
@@ -245,33 +232,31 @@ class FundingController extends Controller
                     'name'     => 'postalCode',
                     'contents' => $postalCode,
                 ],
-                [
-                    'name'     => 'identity',
-                    'contents' => fopen($identity->getPathname(), 'r'),
-                    'filename' => $identity->getClientOriginalName(),
-                ],
-                [
-                    'name'     => 'bankStatement',
-//                        'contents' => $bankStatement,
+                'multipart' => [
+                    [
+                        'name'     => 'identity',
+                        'contents' => $identity,
+//                        'filename' => $identity,
+                    ],
+                    [
+                        'name'     => 'bankStatement',
+                        'contents' => $bankStatement,
 //                        'filename' => $bankStatement,
-                    'contents' => fopen($bankStatement->getPathname(), 'r'),
-                    'filename' => $bankStatement->getClientOriginalName(),
+                    ],
                 ],
-
-
-//                [
-//                    'name'     => 'identity', // Name of the file field in the form
-//                    'contents' => fopen($publicPath . 'image.png', 'r'), // File path
-////                    'contents' => $identity,
-//                    'filename' => 'image.png', // Optional: filename to be sent
-//                ],
-//                // Uncomment and add more files as needed
-//                [
-//                    'name'     => 'bankStatement', // Name of the file field in the form
-//                    'contents' => fopen($publicPath . 'image.png', 'r'), // File path
-////                    'contents' => $bankStatement, // File path
-//                    'filename' => 'image.png', // Optional: filename to be sent
-//                ],
+                [
+                    'name'     => 'identity', // Name of the file field in the form
+                    'contents' => fopen($publicPath . 'image.png', 'r'), // File path
+//                    'contents' => $identity,
+                    'filename' => 'image.png', // Optional: filename to be sent
+                ],
+                // Uncomment and add more files as needed
+                [
+                    'name'     => 'bankStatement', // Name of the file field in the form
+                    'contents' => fopen($publicPath . 'image.png', 'r'), // File path
+//                    'contents' => $bankStatement, // File path
+                    'filename' => 'image.png', // Optional: filename to be sent
+                ],
             ];
 
             // Headers
@@ -294,6 +279,8 @@ class FundingController extends Controller
                 $responseBody = json_decode($response->getBody(), true);
 
                 //echo $statusCode;  // status code
+
+                //dd($responseBody); // body response
 
                 return $responseBody;
 
