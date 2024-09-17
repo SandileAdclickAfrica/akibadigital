@@ -118,8 +118,6 @@ class FundingController extends Controller
         // You can retrieve the form data like this:
         $data = $request->all();
 
-
-
         // Perform any processing (e.g., saving to the database, sending an email, etc.)
 
         Log::info('Fluent Forms Webhook Data:', $data);
@@ -250,14 +248,16 @@ class FundingController extends Controller
 
 //            echo $statusCode;  // status code
 
-            dd($responseBody); // body response
+//            dd($responseBody); // body response
+
+            return $responseBody;
 
         } catch (RequestException $e) {
             if ($e->hasResponse()) {
                 $responseBody = $e->getResponse()->getBody()->getContents();
-                dd(json_decode($responseBody, true));
+                return json_decode($responseBody, true);
             } else {
-                dd($e->getMessage());
+                return $e->getMessage();
             }
         }
     }
