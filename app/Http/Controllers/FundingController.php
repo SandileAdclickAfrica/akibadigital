@@ -115,8 +115,9 @@ class FundingController extends Controller
 
 
     public function webhook2(Request $request){
-        \Log::info('Webhook received', $request->input('fileupload'));
 
+        \Log::info('Webhook received', $request->input('bankStatement'));
+        \Log::info('Webhook received', $request->input('identity'));
 
         $fundingAmount              = $request->input('loan');
         $email                      = $request->input('email');
