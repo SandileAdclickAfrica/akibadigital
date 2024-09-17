@@ -119,6 +119,30 @@ class FundingController extends Controller
     {
         if( $request->method() == 'POST' ) {
 
+            $fundingAmount              = $request->input('loan');
+            $email                      = $request->input('email');
+            $first_name                 = $request->input('first_name');
+            $last_name                  = $request->input('last_name');
+            $contact_number             = $request->input('contact_number');
+            $type                       = $request->input('type');
+            $step                       = $request->input('step');
+            $business_reg_number        = $request->input('business_reg_number');
+
+            $fundingType                = $request->input('fundingType');
+            $loanDuration               = $request->input('loanDuration');
+            $businessYears              = $request->input('businessYears');
+            $monthlyTurnOver            = $request->input('monthlyTurnOver');
+
+            $bank                       = $request->input('bank');
+            $accountType                = $request->input('accountType');
+            $accountOwner               = $request->input('accountOwner');
+            $bankStatement              = $request->input('bankStatement');
+            $customerReference          = $request->input('customerReference');
+            $IDnumber                   = $request->input('IDnumber');
+            $city                       = $request->input('city');
+            $postalCode                 = $request->input('postalCode');
+            $identity                   = $request->input('identity');
+
             Log::info('Webhook data');
 
             $publicPath = public_path('/images/');
@@ -128,15 +152,15 @@ class FundingController extends Controller
             $postInput = [
                 [
                     'name'     => 'loan',
-                    'contents' => '20000',
+                    'contents' => $fundingAmount,
                 ],
                 [
                     'name'     => 'email',
-                    'contents' => 'msentricreatives123@gmail.com',
+                    'contents' => $email,
                 ],
                 [
                     'name'     => 'contact_number',
-                    'contents' => '0660070724',
+                    'contents' => $contact_number,
                 ],
                 [
                     'name'     => 'type',
@@ -148,15 +172,15 @@ class FundingController extends Controller
                 ],
                 [
                     'name'     => 'business_reg_number',
-                    'contents' => 'K20174557307',
+                    'contents' => $business_reg_number,
                 ],
                 [
                     'name'     => 'first_name',
-                    'contents' => 'Sandile',
+                    'contents' => $first_name,
                 ],
                 [
                     'name'     => 'last_name',
-                    'contents' => 'Msentri',
+                    'contents' => $last_name,
                 ],
                 [
                     'name'     => 'company_name',
@@ -164,27 +188,27 @@ class FundingController extends Controller
                 ],
                 [
                     'name'     => 'fundingType',
-                    'contents' => 'Working Capital (General)',
+                    'contents' => $fundingType,
                 ],
                 [
                     'name'     => 'loanDuration',
-                    'contents' => 'Very short term (3 months or less)',
+                    'contents' => $loanDuration,
                 ],
                 [
                     'name'     => 'businessYears',
-                    'contents' => '0 - 1 Year',
+                    'contents' => $businessYears,
                 ],
                 [
                     'name'     => 'monthlyTurnOver',
-                    'contents' => 'R40k - R100k',
+                    'contents' => $monthlyTurnOver,
                 ],
                 [
                     'name'     => 'bank',
-                    'contents' => 'FNB',
+                    'contents' => $bank,
                 ],
                 [
                     'name'     => 'accountType',
-                    'contents' => 'cheque',
+                    'contents' => $accountType,
                 ],
                 [
                     'name'     => 'accountOwner',
@@ -192,29 +216,31 @@ class FundingController extends Controller
                 ],
                 [
                     'name'     => 'customerReference',
-                    'contents' => 'customerReference',
+                    'contents' => $customerReference,
                 ],
                 [
                     'name'     => 'IDnumber',
-                    'contents' => '9408346588086',
+                    'contents' => $IDnumber,
                 ],
                 [
                     'name'     => 'city',
-                    'contents' => 'Gauteng',
+                    'contents' => $city,
                 ],
                 [
                     'name'     => 'postalCode',
-                    'contents' => '1724',
+                    'contents' => $postalCode,
                 ],
                 [
                     'name'     => 'identity', // Name of the file field in the form
-                    'contents' => fopen($publicPath . 'image.png', 'r'), // File path
+//                    'contents' => fopen($publicPath . 'image.png', 'r'), // File path
+                    'contents' => $identity,
                     'filename' => 'image.png', // Optional: filename to be sent
                 ],
                 // Uncomment and add more files as needed
                 [
                     'name'     => 'bankStatement', // Name of the file field in the form
-                    'contents' => fopen($publicPath . 'image.png', 'r'), // File path
+//                    'contents' => fopen($publicPath . 'image.png', 'r'), // File path
+                    'contents' => $bankStatement, // File path
                     'filename' => 'image.png', // Optional: filename to be sent
                 ],
             ];
