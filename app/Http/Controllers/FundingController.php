@@ -232,18 +232,6 @@ class FundingController extends Controller
                     'name'     => 'postalCode',
                     'contents' => $postalCode,
                 ],
-                'multipart' => [
-                    [
-                        'name'     => 'identity',
-                        'contents' => $identity,
-//                        'filename' => $identity,
-                    ],
-                    [
-                        'name'     => 'bankStatement',
-                        'contents' => $bankStatement,
-//                        'filename' => $bankStatement,
-                    ],
-                ],
                 [
                     'name'     => 'identity', // Name of the file field in the form
                     'contents' => fopen($publicPath . 'image.png', 'r'), // File path
