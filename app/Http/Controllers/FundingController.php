@@ -235,13 +235,13 @@ class FundingController extends Controller
                 'multipart' => [
                     [
                         'name'     => 'identity',
-                        'contents' => fopen($identity->getPathname(), 'r'),
-                        'filename' => $identity->getClientOriginalName(),
+                        'contents' => $identity,
+//                        'filename' => $identity,
                     ],
                     [
                         'name'     => 'bankStatement',
-                        'contents' => fopen($bankStatement->getPathname(), 'r'),
-                        'filename' => $bankStatement->getClientOriginalName(),
+                        'contents' => $bankStatement,
+//                        'filename' => $bankStatement,
                     ],
                 ],
 
