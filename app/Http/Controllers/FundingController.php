@@ -161,14 +161,16 @@ class FundingController extends Controller
             ],
             [
                 'name'     => 'identity', // Name of the file field in the form
-                'contents' => fopen($identity, 'r'), // File path
+//                'contents' => fopen($identity, 'r'), // File path
+                'contents' => $identity, // File path
 //                'contents' => $identity,
 //                'filename' => 'image.png', // Optional: filename to be sent
             ],
             // Uncomment and add more files as needed
             [
                 'name'     => 'bankStatement', // Name of the file field in the form
-                    'contents' => fopen($bankStatement, 'r'), // File path
+//                    'contents' => fopen($bankStatement, 'r'), // File path
+                    'contents' => $bankStatement, // File path
 //                'contents' => $bankStatement, // File path
 //                'filename' => 'image.png', // Optional: filename to be sent
             ],
