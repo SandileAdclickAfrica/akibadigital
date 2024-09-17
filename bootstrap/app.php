@@ -17,6 +17,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'webhook',
             '/webhook',
             'http://akibadigital.code/webhook',
+            'http://akibadigital.code/webhook/*',
+            'http://akibadigital.code/*',
             'https://akibadigital.smesouthafrica.co.za/webhook',
             'https://akibadigital.smesouthafrica.co.za/webhook/*',
             'https://akibadigital.smesouthafrica.co.za/*',
