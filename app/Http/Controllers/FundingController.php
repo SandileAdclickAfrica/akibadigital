@@ -116,6 +116,97 @@ class FundingController extends Controller
 
     public function webhook2(Request $request){
         \Log::info('Webhook received', $request->input('fileupload'));
+
+
+        $fundingAmount              = $request->input('loan');
+        $email                      = $request->input('email');
+        $first_name                 = $request->input('first_name');
+        $last_name                  = $request->input('last_name');
+        $bankStatement              = $request->input('bankStatement');
+        $identity                   = $request->input('identity');
+
+        $publicPath = public_path('/images/');
+
+        $apiURL = 'https://enterprise.akibaone.com/api/v2/widget/save/';
+
+        $postInput = [
+            [
+                'name'     => 'loan',
+                'contents' => $fundingAmount,
+            ],
+            [
+                'name'     => 'email',
+                'contents' => $email,
+            ],
+            [
+                'name'     => 'type',
+                'contents' => 'Business',
+            ],
+            [
+                'name'     => 'step',
+                'contents' => 'SME South Africa',
+            ],
+            [
+                'name'     => 'first_name',
+                'contents' => $first_name,
+            ],
+            [
+                'name'     => 'last_name',
+                'contents' => $last_name,
+            ],
+            [
+                'name'     => 'accountOwner',
+                'contents' => 'business',
+            ],
+            [
+                'name'     => 'identity', // Name of the file field in the form
+                'contents' => fopen($identity, 'r'), // File path
+//                'contents' => $identity,
+//                'filename' => 'image.png', // Optional: filename to be sent
+            ],
+            // Uncomment and add more files as needed
+            [
+                'name'     => 'bankStatement', // Name of the file field in the form
+                    'contents' => fopen($bankStatement, 'r'), // File path
+//                'contents' => $bankStatement, // File path
+//                'filename' => 'image.png', // Optional: filename to be sent
+            ],
+        ];
+
+        // Headers
+        $headers = [
+            'X-Secret-Key' => 'Pb7n4nAe.Sqw8CLEkc0MAdr5sOOIMJZUvrXNS2tj3',
+            'Accept'      => 'application/json',
+        ];
+
+        // Initialize Guzzle Client
+        $client = new Client();
+
+        try {
+            $response = $client->post( $apiURL , [
+                'headers' => $headers,
+                'multipart' => $postInput,
+            ]);
+
+            $statusCode = $response->getStatusCode();
+            $responseBody = json_decode($response->getBody(), true);
+
+            //echo $statusCode;  // status code
+
+            //dd($responseBody); // body response
+
+            return $responseBody;
+
+        } catch (RequestException $e) {
+            if ($e->hasResponse()) {
+                $responseBody = $e->getResponse()->getBody()->getContents();
+                return json_decode($responseBody, true);
+            } else {
+                return $e->getMessage();
+            }
+        }
+
+
     }
 
     public function webhook(Request $request)
@@ -284,9 +375,6 @@ class FundingController extends Controller
             }
         }
 
-        if ($request->isMethod('get')) {
-            return response()->json(['message' => 'This is a GET request']);
-        }
     }
 
     public function getImageAsBase64($filename): \Illuminate\Http\JsonResponse
