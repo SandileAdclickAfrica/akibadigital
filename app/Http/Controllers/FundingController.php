@@ -108,7 +108,7 @@ class FundingController extends Controller
 //        $identity                   = $request->file('identity');
 
 //        return response()->json(['status' => 'success']);
-        return response()->json(['status' => 'success', 'received' => $bankStatement->getPathname(), 'other' => $bankStatement->getClientOriginalName() ]);
+        dd( response()->json(['status' => 'success', 'received' => $bankStatement->getPathname(), 'other' => $bankStatement->getClientOriginalName() ]) );
     }
 
 
