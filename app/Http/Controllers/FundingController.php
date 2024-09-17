@@ -132,7 +132,7 @@ class FundingController extends Controller
                 ],
                 [
                     'name'     => 'email',
-                    'contents' => 'msentricreatives@gmail.com',
+                    'contents' => 'msentricreatives123@gmail.com',
                 ],
                 [
                     'name'     => 'contact_number',
