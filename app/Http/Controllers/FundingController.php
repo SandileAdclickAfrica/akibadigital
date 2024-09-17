@@ -118,6 +118,7 @@ class FundingController extends Controller
     public function webhook(Request $request)
     {
         if( $request->method() == 'POST' ) {
+
             Log::info('Webhook data');
 
             $publicPath = public_path('/images/');
