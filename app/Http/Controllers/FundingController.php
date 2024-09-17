@@ -136,16 +136,19 @@ class FundingController extends Controller
             $bank                       = $request->input('bank');
             $accountType                = $request->input('accountType');
             $accountOwner               = $request->input('accountOwner');
-            $bankStatement              = $request->input('bankStatement');
+//            $bankStatement              = $request->input('bankStatement');
             $customerReference          = $request->input('customerReference');
             $IDnumber                   = $request->input('IDnumber');
             $city                       = $request->input('city');
             $postalCode                 = $request->input('postalCode');
-            $identity                   = $request->input('identity');
+//            $identity                   = $request->input('identity');
+
+            $bankStatement = $request->file('bankStatement');
+            $identity = $request->file('identity');
 
 
-//            \Log::info('Webhook received', $bankStatement->getPathname());
-//            \Log::info('Webhook received', $bankStatement->getClientOriginalName());
+            \Log::info('Webhook received', $bankStatement->getPathname());
+            \Log::info('Webhook received', $bankStatement->getClientOriginalName());
 
             $publicPath = public_path('/images/');
 
@@ -235,13 +238,15 @@ class FundingController extends Controller
                 'multipart' => [
                     [
                         'name'     => 'identity',
-                        'contents' => $identity,
-//                        'filename' => $identity,
+                        'contents' => fopen($bankStatement->getPathname(), 'r'),
+                        'filename' => $bankStatement->getClientOriginalName(),
                     ],
                     [
                         'name'     => 'bankStatement',
-                        'contents' => $bankStatement,
+//                        'contents' => $bankStatement,
 //                        'filename' => $bankStatement,
+                        'contents' => fopen($bankStatement->getPathname(), 'r'),
+                        'filename' => $bankStatement->getClientOriginalName(),
                     ],
                 ],
 
@@ -262,9 +267,6 @@ class FundingController extends Controller
 //                    'filename' => 'image.png', // Optional: filename to be sent
 //                ],
             ];
-
-
-
 
             // Headers
             $headers = [
