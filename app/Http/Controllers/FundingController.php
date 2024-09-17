@@ -119,6 +119,9 @@ class FundingController extends Controller
     {
         if( $request->method() == 'POST' ) {
 
+            Log::info('Webhook data'. $request->all()  );
+            Log::info('Webhook data'. $request->input('loan')  );
+
             $fundingAmount              = $request->input('loan');
             $email                      = $request->input('email');
             $first_name                 = $request->input('first_name');
@@ -142,8 +145,6 @@ class FundingController extends Controller
             $city                       = $request->input('city');
             $postalCode                 = $request->input('postalCode');
             $identity                   = $request->input('identity');
-
-            Log::info('Webhook data');
 
             $publicPath = public_path('/images/');
 
