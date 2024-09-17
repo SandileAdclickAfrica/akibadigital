@@ -113,7 +113,12 @@ class FundingController extends Controller
         return response()->json(['status' => 'success', 'received' => $name]);
     }
 
-
+    public function webhook2(Request $request)
+    {
+        $identity = $request->file('identity');
+//        \Log::info('Webhook received', $request->get('name'));
+        dd( $identity );
+    }
 
     public function webhook(Request $request)
     {
