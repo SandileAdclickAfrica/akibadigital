@@ -106,8 +106,11 @@ class FundingController extends Controller
         // Log the request for debugging purposes
         \Log::info('Webhook received', $request->all());
 
+        $name = $request->input('name');
+
         // Process the webhook data here...
-        return response()->json(['status' => 'success']);
+//        return response()->json(['status' => 'success']);
+        return response()->json(['status' => 'success', 'received' => $name]);
     }
 
     public function webhook(Request $request)
