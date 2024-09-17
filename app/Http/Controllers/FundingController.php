@@ -119,7 +119,7 @@ class FundingController extends Controller
     {
         if( $request->method() == 'POST' ) {
 
-            Log::info('Webhook data'. $request->input()  );
+//            Log::info('Webhook data'. $request->input()  );
             Log::info('Webhook data'. $request->input('loan')  );
 
             $fundingAmount              = $request->input('loan');
