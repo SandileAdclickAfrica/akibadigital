@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'ef24fec02dcdbd4371745b1181f36090d926c944',
+        'reference' => 'be32ba2cca8bd0fd86a8d6c230ed3a81c8cbdd81',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -388,7 +388,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'ef24fec02dcdbd4371745b1181f36090d926c944',
+            'reference' => 'be32ba2cca8bd0fd86a8d6c230ed3a81c8cbdd81',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -754,8 +754,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '3.0.0',
-                1 => '1.0|2.0|3.0',
+                0 => '1.0|2.0|3.0',
+                1 => '3.0.0',
             ),
         ),
         'psr/simple-cache' => array(
@@ -1226,6 +1226,15 @@
             'reference' => '92e080b851c1c655c786a2da77f188f2dccd0f4b',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/yaml',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
+        'theanik/laravel-more-command' => array(
+            'pretty_version' => 'v1.3.0',
+            'version' => '1.3.0.0',
+            'reference' => 'a6c4144c5ca7839cce7fd969bcffb9181c1e088e',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../theanik/laravel-more-command',
             'aliases' => array(),
             'dev_requirement' => true,
         ),
