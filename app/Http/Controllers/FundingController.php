@@ -147,8 +147,8 @@ class FundingController extends Controller
             $identity = $request->file('identity');
 
 
-            \Log::info('Webhook received', $bankStatement->getPathname());
-            \Log::info('Webhook received', $bankStatement->getClientOriginalName());
+//            \Log::info('Webhook received', $bankStatement->getPathname());
+//            \Log::info('Webhook received', $bankStatement->getClientOriginalName());
 
             $publicPath = public_path('/images/');
 
