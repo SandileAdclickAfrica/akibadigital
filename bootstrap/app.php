@@ -13,6 +13,13 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->validateCsrfTokens(except: [
             'webhook/*',
+            'webhook/',
+            'webhook',
+            '/webhook',
+            'http://akibadigital.code/webhook',
+            'https://akibadigital.smesouthafrica.co.za/webhook',
+            'https://akibadigital.smesouthafrica.co.za/webhook/*',
+            'https://akibadigital.smesouthafrica.co.za/*',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
