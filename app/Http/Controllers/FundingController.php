@@ -104,7 +104,7 @@ class FundingController extends Controller
     public function handleWebhook(Request $request)
     {
         // Log the request for debugging purposes
-        \Log::info('Webhook received', $request->all());
+        \Log::info('Webhook received', $request->get('name'));
 
         // Process the webhook data here...
         return response()->json(['status' => 'success']);
@@ -114,6 +114,8 @@ class FundingController extends Controller
     {
         // You can retrieve the form data like this:
         $data = $request->all();
+
+
 
         // Perform any processing (e.g., saving to the database, sending an email, etc.)
 
