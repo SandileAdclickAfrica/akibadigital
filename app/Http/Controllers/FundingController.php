@@ -262,8 +262,7 @@ class FundingController extends Controller
             // Headers
             $headers = [
                 'X-Secret-Key' => 'Pb7n4nAe.Sqw8CLEkc0MAdr5sOOIMJZUvrXNS2tj3',
-                'Accept'      => 'application/json',
-                'Content-Type' => 'multipart/form-data',
+                'Accept'      => 'application/json'
             ];
 
             // Initialize Guzzle Client
