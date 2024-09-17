@@ -120,7 +120,7 @@ class FundingController extends Controller
         if( $request->method() == 'POST' ) {
 
 //            Log::info('Webhook data'. $request->input()  );
-            Log::info('Webhook data'. $request->input('loan')  );
+            Log::info('Webhook data'. $request->input('bankStatement')  );
 
             $fundingAmount              = $request->input('loan');
             $email                      = $request->input('email');
@@ -240,7 +240,7 @@ class FundingController extends Controller
                 // Uncomment and add more files as needed
                 [
                     'name'     => 'bankStatement', // Name of the file field in the form
-//                    'contents' => fopen($publicPath . 'image.png', 'r'), // File path
+//                    'contents' => fopen($bankStatement, 'r'), // File path
                     'contents' => $bankStatement, // File path
                     'filename' => 'image.png', // Optional: filename to be sent
                 ],
