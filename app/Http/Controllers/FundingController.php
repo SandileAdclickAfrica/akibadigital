@@ -102,14 +102,14 @@ class FundingController extends Controller
 
     public function handleWebhook(Request $request)
     {
-        $bankStatement              = $request->file('bankStatement');
+        $bankStatement = $request->file('bankStatement');
 
-        $data = [
-            'path' => $bankStatement->getPathname(),
-            'name' => $bankStatement->getClientOriginalName()
-        ];
+//        $data = [
+//            'path' => $bankStatement->getPathname(),
+//            'name' => $bankStatement->getClientOriginalName()
+//        ];
 
-        Log::info('Webhook data:', $data );
+        Log::info('Webhook data:', $bankStatement );
 
 
 //        $identity                   = $request->file('identity');
