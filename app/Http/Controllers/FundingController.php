@@ -102,7 +102,17 @@ class FundingController extends Controller
 
     public function handleWebhook(Request $request)
     {
-        $bankStatement = $request->file('bankStatement');
+
+        if ($request->hasFile('bankStatement')) {
+
+            $data = [
+                'response' => 'has a file',
+            ];
+
+            Log::info('Webhook data received: ', $data);
+        }
+
+        //$bankStatement = $request->file('bankStatement');
 
 //        $data = [
 //            'path' => $bankStatement->getPathname(),
@@ -110,7 +120,7 @@ class FundingController extends Controller
 //        ];
 
 //        Log::info('Webhook data:', (array) $bankStatement );
-        \Log::info('Webhook data received: ', $bankStatement);
+        //\Log::info('Webhook data received: ', $bankStatement);
 
 
 //        $identity                   = $request->file('identity');
