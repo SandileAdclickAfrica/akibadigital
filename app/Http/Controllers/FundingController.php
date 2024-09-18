@@ -109,7 +109,8 @@ class FundingController extends Controller
 //            'name' => $bankStatement->getClientOriginalName()
 //        ];
 
-        Log::info('Webhook data:', (array) $bankStatement );
+//        Log::info('Webhook data:', (array) $bankStatement );
+        \Log::info('Webhook data received: ', $bankStatement);
 
 
 //        $identity                   = $request->file('identity');
