@@ -110,6 +110,12 @@ class FundingController extends Controller
             ];
 
             Log::info('Webhook data received: ', $data);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'File uploaded and forwarded successfully',
+                'response' => 'has a file'
+            ]);
         }
 
         //$bankStatement = $request->file('bankStatement');
