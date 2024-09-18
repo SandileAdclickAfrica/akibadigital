@@ -103,7 +103,7 @@ class FundingController extends Controller
     public function handleWebhook(Request $request)
     {
 
-        if ($request->hasFile('bankStatement')) {
+        if ($request->hasFile('file')) {
 
             $data = [
                 'response' => 'has a file',
