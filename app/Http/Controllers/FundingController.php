@@ -116,6 +116,19 @@ class FundingController extends Controller
                 'message' => 'File uploaded and forwarded successfully',
                 'response' => 'has a file'
             ]);
+        }else{
+
+            $data = [
+                'response' => 'has a file',
+            ];
+
+            Log::info('Webhook data received: ', $data);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'File not uploaded',
+                'response' => 'No File Uploaded'
+            ]);
         }
 
         //$bankStatement = $request->file('bankStatement');
