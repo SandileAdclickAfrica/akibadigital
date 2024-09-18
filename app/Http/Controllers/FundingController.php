@@ -95,7 +95,6 @@ class FundingController extends Controller
 //
 //    }
 
-
     public function index()
     {
         return view('webhook');
@@ -103,12 +102,22 @@ class FundingController extends Controller
 
     public function handleWebhook(Request $request)
     {
-
         $bankStatement              = $request->file('bankStatement');
+
+        $data = [
+            'path' => $bankStatement->getPathname(),
+            'name' => $bankStatement->getClientOriginalName()
+        ];
+
+        Log::info('Webhook data:', $data );
+
+
 //        $identity                   = $request->file('identity');
 
 //        return response()->json(['status' => 'success']);
-        dd( response()->json(['status' => 'success', 'received' => $bankStatement->getPathname(), 'other' => $bankStatement->getClientOriginalName() ]) );
+
+//        dd( $bankStatement->getPathname() );
+//        dd( response()->json(['status' => 'success', 'received' => $bankStatement->getPathname(), 'other' => $bankStatement->getClientOriginalName() ]) );
     }
 
 
@@ -145,7 +154,6 @@ class FundingController extends Controller
 
             $bankStatement              = $request->file('bankStatement');
             $identity                   = $request->file('identity');
-
 
 //            \Log::info('Webhook received', $bankStatement->getPathname());
 //            \Log::info('Webhook received', $bankStatement->getClientOriginalName());
