@@ -119,7 +119,7 @@ class FundingController extends Controller
         }else{
 
             $data = [
-                'response' => 'has a file',
+                'form' => $request->all(),
             ];
 
             Log::info('Webhook data received: ', $data);
