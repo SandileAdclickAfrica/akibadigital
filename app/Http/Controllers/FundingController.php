@@ -231,6 +231,10 @@ class FundingController extends Controller
 
 
 
+            dd( $identity->getPathname() );
+
+
+
             $postInput = [
                 [
                     'name'     => 'loan',
@@ -534,6 +538,18 @@ class FundingController extends Controller
         if ($request->isMethod('get')) {
             return response()->json(['message' => 'This is a GET request']);
         }
+    }
+
+
+    public function testWebhook(Request $request){
+
+        if( $request->method() == 'POST' ) {
+
+            dd( $request->all() );
+
+        }
+
+        return view('webhook');
     }
 
     public function getImageAsBase64($filename): \Illuminate\Http\JsonResponse

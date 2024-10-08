@@ -12,11 +12,12 @@
 <h1>test</h1>
 
 
-<form method="POST" action="/webhook">
+<form method="POST" action="/webhook" enctype="multipart/form-data" >
     @csrf
-
-    <input type="text" name="name" placeholder="name" >
+{{--    <input type="text" name="name" placeholder="name" >--}}
     <input type="email" name="email" placeholder="email" >
+    <input type="file" name="bankStatement" id="bankStatement" required>
+    <input type="file" name="identity" id="identity" required>
     <input type="submit" value="Submit">
 </form>
 
