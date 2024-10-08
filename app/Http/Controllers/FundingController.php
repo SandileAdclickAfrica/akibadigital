@@ -172,34 +172,39 @@ class FundingController extends Controller
     {
         if( $request->method() == 'POST' ) {
 
-            $fundingAmount              = $request->input('loan');
-            $email                      = $request->input('email');
-            $first_name                 = $request->input('first_name');
-            $last_name                  = $request->input('last_name');
-            $contact_number             = $request->input('contact_number');
-            $type                       = $request->input('type');
-            $step                       = $request->input('step');
-            $business_reg_number        = $request->input('business_reg_number');
+            $data = $request->all();
 
-            $fundingType                = $request->input('fundingType');
-            $loanDuration               = $request->input('loanDuration');
-            $businessYears              = $request->input('businessYears');
-            $monthlyTurnOver            = $request->input('monthlyTurnOver');
+            $fundingAmount              = '25000';
+            $email                      = $data['email'];
+            $first_name                 = 'Sandile';
+            $last_name                  = 'Mazibuko';
+            $contact_number             = '0660060623';
+            $type                       = 'Business';
+            $step                       = 'SME South Africa';
+            $business_reg_number        = 'K20174557307';
 
-            $bank                       = $request->input('bank');
-            $accountType                = $request->input('accountType');
-            $accountOwner               = $request->input('accountOwner');
+            $fundingType                = 'Working Capital (General)';
+            $loanDuration               = 'Very short term (3 months or less)';
+            $businessYears              = '0 - 1 Year';
+            $monthlyTurnOver            = 'R40k - R100k';
 
-            $customerReference          = $request->input('customerReference');
-            $IDnumber                   = $request->input('IDnumber');
-            $city                       = $request->input('city');
-            $postalCode                 = $request->input('postalCode');
+            $bank                       = 'FNB';
+            $accountType                = 'cheque';
+            $accountOwner               = 'business';
+
+            $customerReference          = 'customerReference';
+            $IDnumber                   = '9208315233084';
+            $city                       = 'Gauteng';
+            $postalCode                 = '1724';
 
 //            $bankStatement              = $request->input('bankStatement');
 //            $identity                   = $request->input('identity');
 
-            $bankStatement              = $request->file('bankStatement');
-            $identity                   = $request->file('identity');
+            $bankStatement              = $data['bankStatement'];
+            $identity                   = $data['identity'];
+
+//            $bankStatement              = $request->file('bankStatement');
+//            $identity                   = $request->file('identity');
 
 //            \Log::info('Webhook received', $bankStatement->getPathname());
 //            \Log::info('Webhook received', $bankStatement->getClientOriginalName());
@@ -207,6 +212,8 @@ class FundingController extends Controller
             $publicPath = public_path('/images/');
 
             $apiURL = 'https://enterprise.akibaone.com/api/v2/widget/save/';
+
+
 
             $postInput = [
                 [
