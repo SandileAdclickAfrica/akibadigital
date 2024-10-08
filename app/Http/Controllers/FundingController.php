@@ -127,10 +127,13 @@ class FundingController extends Controller
             $file = $request->file('bankStatement');
             $path = $file->store('uploads'); // Store in the storage/app/uploads directory
             // Do something with the file path or move it as needed
+
+            return response()->json(['status' => $file]);
+
         }
 
         // Return a response
-        return response()->json(['status' => 'success']);
+
     }
 
     public function handleWebhook(Request $request)
