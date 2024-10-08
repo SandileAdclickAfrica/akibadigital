@@ -122,17 +122,8 @@ class FundingController extends Controller
         // Process the incoming request
         $data = $request->all();
 
-        // Check if the file was uploaded
-        if ($request->hasFile('bankStatement')) {
-            $file = $request->file('bankStatement');
-            $path = $file->store('uploads'); // Store in the storage/app/uploads directory
-            // Do something with the file path or move it as needed
-
-            return response()->json([$file]);
-
-        }
-
-        // Return a response
+        $file = $request->file('bankStatement');
+        return response()->json([$file]);
 
     }
 
