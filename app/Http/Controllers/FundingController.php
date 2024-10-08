@@ -106,10 +106,10 @@ class FundingController extends Controller
 
             $data = $request->all();
 //            $data = $request->input('fullnames');
-//            $file = $request->file('bankStatement');
+            $bankStatement = $request->file('bankStatement');
 
             return response()->json([
-                'formData' => $data,
+                'formData' => $bankStatement,
                 'status' => 'success',
                 'message' => 'Form Submitted',
                 'response' => 'Submitted'
