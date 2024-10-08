@@ -104,12 +104,12 @@ class FundingController extends Controller
     {
         if( $request->method() == 'POST' ) {
 
-//            $data = $request->all();
+            $data = $request->all();
 //            $data = $request->input('fullnames');
-            $file = $request->file('bankStatement');
+//            $file = $request->file('bankStatement');
 
             return response()->json([
-                'formData' => $file,
+                'formData' => $data,
                 'status' => 'success',
                 'message' => 'Form Submitted',
                 'response' => 'Submitted'
