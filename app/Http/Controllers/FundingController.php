@@ -117,6 +117,22 @@ class FundingController extends Controller
         }
     }
 
+    public function handleWebhook2(Request $request)
+    {
+        // Process the incoming request
+        $data = $request->all();
+
+        // Check if the file was uploaded
+        if ($request->hasFile('bankStatement')) {
+            $file = $request->file('bankStatement');
+            $path = $file->store('uploads'); // Store in the storage/app/uploads directory
+            // Do something with the file path or move it as needed
+        }
+
+        // Return a response
+        return response()->json(['status' => 'success']);
+    }
+
     public function handleWebhook(Request $request)
     {
 
