@@ -128,7 +128,7 @@ class FundingController extends Controller
             $path = $file->store('uploads'); // Store in the storage/app/uploads directory
             // Do something with the file path or move it as needed
 
-            return response()->json(['status' => $file]);
+            return response()->json([$file]);
 
         }
 
