@@ -128,7 +128,7 @@ class FundingController extends Controller
         ]);
 
         $file = $request->file('bankStatement');
-        return response()->json([$file]);
+        return response()->json(['file'=> $file]);
 
     }
 
