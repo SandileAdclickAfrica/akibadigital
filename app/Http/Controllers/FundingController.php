@@ -100,6 +100,22 @@ class FundingController extends Controller
         return view('webhook');
     }
 
+    public function handle2(Request $request)
+    {
+        if( $request->method() == 'POST' ) {
+
+            $data = $request->all();
+//            $data = $request->input('bankstament');
+
+            return response()->json([
+                'formData' => $data,
+                'status' => 'success',
+                'message' => 'Form Submitted',
+                'response' => 'Submitted'
+            ]);
+        }
+    }
+
     public function handleWebhook(Request $request)
     {
 
@@ -152,6 +168,178 @@ class FundingController extends Controller
 
 
 
+    public function webhook2(Request $request)
+    {
+        if( $request->method() == 'POST' ) {
+
+            $fundingAmount              = $request->input('loan');
+            $email                      = $request->input('email');
+            $first_name                 = $request->input('first_name');
+            $last_name                  = $request->input('last_name');
+            $contact_number             = $request->input('contact_number');
+            $type                       = $request->input('type');
+            $step                       = $request->input('step');
+            $business_reg_number        = $request->input('business_reg_number');
+
+            $fundingType                = $request->input('fundingType');
+            $loanDuration               = $request->input('loanDuration');
+            $businessYears              = $request->input('businessYears');
+            $monthlyTurnOver            = $request->input('monthlyTurnOver');
+
+            $bank                       = $request->input('bank');
+            $accountType                = $request->input('accountType');
+            $accountOwner               = $request->input('accountOwner');
+
+            $customerReference          = $request->input('customerReference');
+            $IDnumber                   = $request->input('IDnumber');
+            $city                       = $request->input('city');
+            $postalCode                 = $request->input('postalCode');
+
+//            $bankStatement              = $request->input('bankStatement');
+//            $identity                   = $request->input('identity');
+
+            $bankStatement              = $request->file('bankStatement');
+            $identity                   = $request->file('identity');
+
+//            \Log::info('Webhook received', $bankStatement->getPathname());
+//            \Log::info('Webhook received', $bankStatement->getClientOriginalName());
+
+            $publicPath = public_path('/images/');
+
+            $apiURL = 'https://enterprise.akibaone.com/api/v2/widget/save/';
+
+            $postInput = [
+                [
+                    'name'     => 'loan',
+                    'contents' => $fundingAmount,
+                ],
+                [
+                    'name'     => 'email',
+                    'contents' => $email,
+                ],
+                [
+                    'name'     => 'contact_number',
+                    'contents' => $contact_number,
+                ],
+                [
+                    'name'     => 'type',
+                    'contents' => 'Business',
+                ],
+                [
+                    'name'     => 'step',
+                    'contents' => 'SME South Africa',
+                ],
+                [
+                    'name'     => 'business_reg_number',
+                    'contents' => $business_reg_number,
+                ],
+                [
+                    'name'     => 'first_name',
+                    'contents' => $first_name,
+                ],
+                [
+                    'name'     => 'last_name',
+                    'contents' => $last_name,
+                ],
+                [
+                    'name'     => 'company_name',
+                    'contents' => 'Adclick Test',
+                ],
+                [
+                    'name'     => 'fundingType',
+                    'contents' => $fundingType,
+                ],
+                [
+                    'name'     => 'loanDuration',
+                    'contents' => $loanDuration,
+                ],
+                [
+                    'name'     => 'businessYears',
+                    'contents' => $businessYears,
+                ],
+                [
+                    'name'     => 'monthlyTurnOver',
+                    'contents' => $monthlyTurnOver,
+                ],
+                [
+                    'name'     => 'bank',
+                    'contents' => $bank,
+                ],
+                [
+                    'name'     => 'accountType',
+                    'contents' => $accountType,
+                ],
+                [
+                    'name'     => 'accountOwner',
+                    'contents' => 'business',
+                ],
+                [
+                    'name'     => 'customerReference',
+                    'contents' => $customerReference,
+                ],
+                [
+                    'name'     => 'IDnumber',
+                    'contents' => $IDnumber,
+                ],
+                [
+                    'name'     => 'city',
+                    'contents' => $city,
+                ],
+                [
+                    'name'     => 'postalCode',
+                    'contents' => $postalCode,
+                ],
+                [
+                    'name'     => 'identity', // Name of the file field in the form
+                    'contents' => fopen($identity->getPathname(), 'r'), // File path
+                    'filename' => $identity->getClientOriginalName(), // Optional: filename to be sent
+                ],
+                // Uncomment and add more files as needed
+                [
+                    'name'     => 'bankStatement', // Name of the file field in the form
+                    'contents' => fopen($bankStatement->getPathname(), 'r'), // File path
+                    'filename' => $bankStatement->getClientOriginalName(), // Optional: filename to be sent
+                ],
+            ];
+
+            // Headers
+            $headers = [
+                'X-Secret-Key' => 'Pb7n4nAe.Sqw8CLEkc0MAdr5sOOIMJZUvrXNS2tj3',
+                'Accept'      => 'application/json'
+            ];
+
+            // Initialize Guzzle Client
+            $client = new Client();
+
+            try {
+                $response = $client->post( $apiURL , [
+                    'headers' => $headers,
+                    'multipart' => $postInput,
+                ]);
+
+                $statusCode = $response->getStatusCode();
+                $responseBody = json_decode($response->getBody(), true);
+
+                //echo $statusCode;  // status code
+
+                //dd($responseBody); // body response
+
+                return $responseBody;
+
+            } catch (RequestException $e) {
+                if ($e->hasResponse()) {
+                    $responseBody = $e->getResponse()->getBody()->getContents();
+                    return json_decode($responseBody, true);
+                } else {
+                    return $e->getMessage();
+                }
+            }
+        }
+
+        if ($request->isMethod('get')) {
+            return response()->json(['message' => 'This is a GET request']);
+        }
+    }
     public function webhook(Request $request)
     {
         if( $request->method() == 'POST' ) {
