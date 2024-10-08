@@ -122,6 +122,11 @@ class FundingController extends Controller
         // Process the incoming request
         $data = $request->all();
 
+        // Validate the request
+        $request->validate([
+            'bankStatement' => 'required|file',
+        ]);
+
         $file = $request->file('bankStatement');
         return response()->json([$file]);
 
