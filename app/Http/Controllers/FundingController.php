@@ -21,8 +21,8 @@ class FundingController extends Controller
 //        Log::info($request->allFiles());
 
 
-        \Log::info($request->all());
-        \Log::info($request->headers->all());
+        Log::info($request->all());
+        Log::info($request->headers->all());
 
         if ($request->hasFile('uploaded_file')) {
             $file = $request->file('uploaded_file');
