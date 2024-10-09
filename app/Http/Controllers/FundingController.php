@@ -20,7 +20,8 @@ class FundingController extends Controller
         // Make a GET request to fetch the file and pass it via webhook
         try {
 
-            $filename = basename($fileUrl[0]);
+            $filename = basename($fileUrl);
+            Log::info( $filename );
 
             // Fetch the file
             $response = $client->get($fileUrl, [
@@ -51,9 +52,6 @@ class FundingController extends Controller
         $fluentFormsInputs = $request->all();
         $bankStatementURL = $fluentFormsInputs['bankStatement'][0];
 
-        $filename = basename($bankStatementURL[0]);
-//
-        Log::info( $filename );
         Log::info( $bankStatementURL );
         Log::info( $this->processDownload( $bankStatementURL ) );
 
