@@ -247,15 +247,9 @@ class FundingController extends Controller
 //        dd( response()->json(['status' => 'success', 'received' => $bankStatement->getPathname(), 'other' => $bankStatement->getClientOriginalName() ]) );
     }
 
-    /**
-     * @throws GuzzleException
-     */
     public function webhook2(Request $request)
     {
         if( $request->method() == 'POST' ) {
-
-            // Initialize Guzzle Client
-            $client = new Client();
 
             $data = $request->all();
 
@@ -292,14 +286,6 @@ class FundingController extends Controller
             $fluentFormsInputs = $request->all();
             $bankStatementURL = $fluentFormsInputs['bankStatement'][0];
             $identityURL = $fluentFormsInputs['identity'][0];
-
-            $responseBankStatementURL = $client->get( $bankStatementURL );
-            $fileContentBankStatement = $responseBankStatementURL->getBody()->getContents();
-            $fileNameFileContentBankStatement = basename($bankStatementURL);
-
-            $responseIdentityURL = $client->get( $identityURL );
-            $fileContentIdentity = $responseIdentityURL->getBody()->getContents();
-            $fileNameFileIdentity = basename($identityURL);
 
 //            $bankStatement              = $request->file('bankStatement');
 //            $identity                   = $request->file('identity');
@@ -400,14 +386,14 @@ class FundingController extends Controller
                 ],
                 [
                     'name'     => 'identity', // Name of the file field in the form
-                    'contents' => $fileContentIdentity,
-                    'filename' => $fileNameFileIdentity, // Optional: filename to be sent
+                    'contents' => $this->processDownload( $identityURL ),
+                    'filename' => basename($identityURL), // Optional: filename to be sent
                 ],
                 // Uncomment and add more files as needed
                 [
                     'name'     => 'bankStatement', // Name of the file field in the form
-                    'contents' => $fileContentBankStatement,
-                    'filename' => $fileNameFileContentBankStatement, // Optional: filename to be sent
+                    'contents' => $this->processDownload( $bankStatementURL ),
+                    'filename' => basename($bankStatementURL), // Optional: filename to be sent
                 ],
 
 //                [
@@ -429,7 +415,8 @@ class FundingController extends Controller
                 'Accept'      => 'application/json'
             ];
 
-
+            // Initialize Guzzle Client
+            $client = new Client();
 
             try {
                 $response = $client->post( $apiURL , [
