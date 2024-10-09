@@ -425,24 +425,23 @@ class FundingController extends Controller
                     'multipart' => $postInput,
                 ]);
 
+//                $statusCode = $response->getStatusCode();
+//                $responseBody = json_decode($response->getBody(), true);
+
+                // Get the response body
+                $body = $response->getBody()->getContents();
+
+                // Get the status code
                 $statusCode = $response->getStatusCode();
-                $responseBody = json_decode($response->getBody(), true);
 
-//                return response()->json( $response->getBody(), 200 );
+                Log::info( $body );
+                Log::info( $statusCode );
 
+                // Return the response data
                 return response()->json([
-                    'status_code' => 200,
-                    'body' => $responseBody, // Decode if the response is JSON
+                    'status_code' => $statusCode,
+                    'body' => json_decode($body), // Decode if the response is JSON
                 ]);
-
-                //echo $statusCode;  // status code
-
-                //dd($responseBody); // body response
-
-//                Log::info( basename($bankStatementURL) );
-//                Log::info( $responseBody );
-
-//                return $responseBody;
 
             } catch (RequestException $e) {
                 if ($e->hasResponse()) {
@@ -451,6 +450,7 @@ class FundingController extends Controller
                 } else {
                     return $e->getMessage();
                 }
+            } catch (GuzzleException $e) {
             }
         }
 
