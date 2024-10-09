@@ -38,6 +38,7 @@ class FundingController extends Controller
             return $file;
 
         } catch (\Exception $e) {
+            Log::info( $e->getMessage() );
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
