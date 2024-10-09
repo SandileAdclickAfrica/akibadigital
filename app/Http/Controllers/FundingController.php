@@ -425,22 +425,10 @@ class FundingController extends Controller
                     'multipart' => $postInput,
                 ]);
 
-//                $statusCode = $response->getStatusCode();
-//                $responseBody = json_decode($response->getBody(), true);
-
-                // Get the response body
-                $body = $response->getBody()->getContents();
-
-                // Get the status code
-                $statusCode = $response->getStatusCode();
-
-                Log::info( $body );
-                Log::info( $statusCode );
-
                 // Return the response data
                 return response()->json([
-                    'status_code' => $statusCode,
-                    'body' => json_decode($body), // Decode if the response is JSON
+                    'status_code' => $response->getStatusCode(),
+                    'body' => json_decode( $response->getBody()->getContents() ), // Decode if the response is JSON
                 ]);
 
             } catch (RequestException $e) {
