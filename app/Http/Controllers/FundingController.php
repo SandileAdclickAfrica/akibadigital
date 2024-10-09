@@ -427,14 +427,16 @@ class FundingController extends Controller
                 $statusCode = $response->getStatusCode();
                 $responseBody = json_decode($response->getBody(), true);
 
+                return response()->json( $response->getBody(), 200 );
+
                 //echo $statusCode;  // status code
 
                 //dd($responseBody); // body response
 
-                Log::info( basename($bankStatementURL) );
-                Log::info( $responseBody );
+//                Log::info( basename($bankStatementURL) );
+//                Log::info( $responseBody );
 
-                return $responseBody;
+//                return $responseBody;
 
             } catch (RequestException $e) {
                 if ($e->hasResponse()) {
