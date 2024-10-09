@@ -21,7 +21,7 @@ class FundingController extends Controller
         try {
 
             $filename = basename($fileUrl);
-            Log::info( $filename );
+//            Log::info( $filename );
 
             // Fetch the file
             $response = $client->get($fileUrl, [
@@ -30,6 +30,8 @@ class FundingController extends Controller
 
             // Open the file for reading
             $file = fopen(storage_path('app/'.$filename), 'r');
+
+//            Log::info( $filename );
 
             fclose($file); // Close the file after sending it
 
@@ -280,6 +282,11 @@ class FundingController extends Controller
             $bankStatement              = $data['bankStatement'];
             $identity                   = $data['identity'];
 
+
+            $fluentFormsInputs = $request->all();
+            $bankStatementURL = $fluentFormsInputs['bankStatement'][0];
+            $identityURL = $fluentFormsInputs['identity'][0];
+
 //            $bankStatement              = $request->file('bankStatement');
 //            $identity                   = $request->file('identity');
 
@@ -292,7 +299,7 @@ class FundingController extends Controller
 
 
 
-            dd( $identity->getPathname() );
+//            dd( $identity->getPathname() );
 
 
 
@@ -379,15 +386,27 @@ class FundingController extends Controller
                 ],
                 [
                     'name'     => 'identity', // Name of the file field in the form
-                    'contents' => fopen($identity->getPathname(), 'r'), // File path
-                    'filename' => $identity->getClientOriginalName(), // Optional: filename to be sent
+                    'contents' => $this->processDownload( $identityURL ),
+                    'filename' => basename($identityURL), // Optional: filename to be sent
                 ],
                 // Uncomment and add more files as needed
                 [
                     'name'     => 'bankStatement', // Name of the file field in the form
-                    'contents' => fopen($bankStatement->getPathname(), 'r'), // File path
-                    'filename' => $bankStatement->getClientOriginalName(), // Optional: filename to be sent
+                    'contents' => $this->processDownload( $bankStatementURL ),
+                    'filename' => basename($bankStatementURL), // Optional: filename to be sent
                 ],
+
+//                [
+//                    'name'     => 'identity', // Name of the file field in the form
+//                    'contents' => fopen($identity->getPathname(), 'r'), // File path
+//                    'filename' => $identity->getClientOriginalName(), // Optional: filename to be sent
+//                ],
+//                // Uncomment and add more files as needed
+//                [
+//                    'name'     => 'bankStatement', // Name of the file field in the form
+//                    'contents' => fopen($bankStatement->getPathname(), 'r'), // File path
+//                    'filename' => $bankStatement->getClientOriginalName(), // Optional: filename to be sent
+//                ],
             ];
 
             // Headers
@@ -411,6 +430,9 @@ class FundingController extends Controller
                 //echo $statusCode;  // status code
 
                 //dd($responseBody); // body response
+
+                Log::info( basename($bankStatementURL) );
+                Log::info( $responseBody );
 
                 return $responseBody;
 
