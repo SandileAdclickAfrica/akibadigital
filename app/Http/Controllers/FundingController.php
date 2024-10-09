@@ -17,7 +17,17 @@ class FundingController extends Controller
     public function handleFluentFormsWebhook(Request $request){
         Log::info($request->all());
 
-//        https://akibadigital.smesouthafrica.co.za/webhook
+        if ($request->hasFile('bankStatement')) {
+            $file = $request->file('bankStatement');
+
+            // Save the file to a specified directory (optional)
+            $path = $file->store('uploads');
+
+            return response()->json(['message' => 'File received successfully', 'path' => $path], 200);
+        }
+
+        return response()->json(['message' => 'No file found'], 400);
+
     }
 
     public function index(Request $request)
