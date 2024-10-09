@@ -54,6 +54,7 @@ class FundingController extends Controller
         $filename = basename($bankStatementURL[0]);
 //
         Log::info( $filename );
+        Log::info( $bankStatementURL );
         Log::info( $this->processDownload( $bankStatementURL ) );
 
         if ($request->hasFile('uploaded_file')) {
