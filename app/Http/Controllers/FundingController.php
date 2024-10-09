@@ -428,7 +428,12 @@ class FundingController extends Controller
                 $statusCode = $response->getStatusCode();
                 $responseBody = json_decode($response->getBody(), true);
 
-                return response()->json( $response->getBody(), 200 );
+//                return response()->json( $response->getBody(), 200 );
+
+                return response()->json([
+                    'status_code' => 200,
+                    'body' => $responseBody, // Decode if the response is JSON
+                ]);
 
                 //echo $statusCode;  // status code
 
