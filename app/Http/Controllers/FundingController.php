@@ -23,11 +23,11 @@ class FundingController extends Controller
 
         Log::info( $request->all() );
 
-//        $fluentFormsInputs = $request->all();
-//        $bankStatement = $fluentFormsInputs['bankStatement'];
-//        $filename = basename($bankStatement);
+        $fluentFormsInputs = $request->all();
+        $bankStatement = $fluentFormsInputs['bankStatement'];
+        $filename = basename($bankStatement[0]);
 //
-//        Log::info( $filename );
+        Log::info( $filename );
 
         if ($request->hasFile('uploaded_file')) {
             $file = $request->file('uploaded_file');
