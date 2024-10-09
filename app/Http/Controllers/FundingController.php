@@ -33,7 +33,7 @@ class FundingController extends Controller
 
 //            Log::info( $filename );
 
-            fclose($file); // Close the file after sending it
+//            fclose($file); // Close the file after sending it
 
             return $file;
 
