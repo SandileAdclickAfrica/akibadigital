@@ -16,9 +16,13 @@ class FundingController extends Controller
 
     public function handleFluentFormsWebhook(Request $request){
 //        Log::info($request->all());
-        Log::info($request->file());
+//        Log::info($request->file());
 //        Log::info($request->header('Content-Type'));
-        Log::info($request->allFiles());
+//        Log::info($request->allFiles());
+
+
+        \Log::info($request->all());
+        \Log::info($request->headers->all());
 
         if ($request->hasFile('uploaded_file')) {
             $file = $request->file('uploaded_file');
