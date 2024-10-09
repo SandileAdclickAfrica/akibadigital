@@ -14,6 +14,31 @@ use PhpParser\Node\Expr\Array_;
 class FundingController extends Controller
 {
 
+    private function processDownload( $fileUrl )
+    {
+        $client = new Client();
+        // Make a GET request to fetch the file and pass it via webhook
+        try {
+
+            $filename = basename($fileUrl[0]);
+
+            // Fetch the file
+            $response = $client->get($fileUrl, [
+                'sink' => storage_path('app/'.$filename) // Save the file temporarily
+            ]);
+
+            // Open the file for reading
+            $file = fopen(storage_path('app/'.$filename), 'r');
+
+            fclose($file); // Close the file after sending it
+
+            return $file;
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
     public function handleFluentFormsWebhook(Request $request){
 //        Log::info($request->all());
 //        Log::info($request->file());
@@ -24,10 +49,12 @@ class FundingController extends Controller
         Log::info( $request->all() );
 
         $fluentFormsInputs = $request->all();
-        $bankStatement = $fluentFormsInputs['bankStatement'];
-        $filename = basename($bankStatement[0]);
+        $bankStatementURL = $fluentFormsInputs['bankStatement'];
+
+        $filename = basename($bankStatementURL[0]);
 //
         Log::info( $filename );
+        Log::info( $this->processDownload( $bankStatementURL ) );
 
         if ($request->hasFile('uploaded_file')) {
             $file = $request->file('uploaded_file');
