@@ -9,10 +9,11 @@ use Illuminate\Support\Facades\Route;
 
 //Route::get('/','FundingController');
 
-Route::get('/', [FundingController::class, 'index']);
+//Route::get('/', [FundingController::class, 'index']);
 //Route::post('/webhook', [FundingController::class, 'webhook2']);
-Route::match(['get', 'post'], '/webhook', [FundingController::class, 'testWebhook']);
-
-
+//Route::match(['get', 'post'], '/webhook', [FundingController::class, 'testWebhook']);
+Route::match(['get', 'post'], '/', [FundingController::class, 'index'])->name('funding.index');
 
 //Route::post('/webhook', [FundingController::class, 'handleWebhook']);
+
+Route::post('/webhook', [FundingController::class, 'handleFluentFormsWebhook']);

@@ -9,13 +9,13 @@
 </head>
 <body>
 
-<h1>test</h1>
+<h1>test sandile test sandile</h1>
 
-<form method="POST" action="/" enctype="multipart/form-data" >
+<form method="POST" action="{{ route('funding.index')  }}" enctype="multipart/form-data" >
     @csrf
     <input type="email" name="email" placeholder="email" >
-    <input type="file" name="bankStatement" id="bankStatement" required>
-    <input type="file" name="identity" id="identity" required>
+    <input type="file" name="bankStatement" id="bankStatement" >
+    <input type="file" name="identity" id="identity" >
     <input type="submit" value="Submit">
 </form>
 

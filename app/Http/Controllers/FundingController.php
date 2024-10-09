@@ -14,6 +14,21 @@ use PhpParser\Node\Expr\Array_;
 class FundingController extends Controller
 {
 
+    public function handleFluentFormsWebhook(Request $request){
+        Log::info($request->all());
+
+//        https://akibadigital.smesouthafrica.co.za/webhook
+    }
+
+    public function index(Request $request)
+    {
+        if( $request->method() == 'POST' ) {
+
+        }else{
+            return view('funding');
+        }
+    }
+
     public function handle( Request $request ): \Illuminate\Http\JsonResponse
     {
         Log::info('Webhook data:', (array) $request->getContent());
@@ -95,10 +110,10 @@ class FundingController extends Controller
 //
 //    }
 
-    public function index()
-    {
-        return view('webhook');
-    }
+//    public function index()
+//    {
+//        return view('webhook');
+//    }
 
     public function handle2(Request $request)
     {
@@ -181,8 +196,6 @@ class FundingController extends Controller
 //        dd( $bankStatement->getPathname() );
 //        dd( response()->json(['status' => 'success', 'received' => $bankStatement->getPathname(), 'other' => $bankStatement->getClientOriginalName() ]) );
     }
-
-
 
     public function webhook2(Request $request)
     {
@@ -539,7 +552,6 @@ class FundingController extends Controller
             return response()->json(['message' => 'This is a GET request']);
         }
     }
-
 
     public function testWebhook(Request $request){
 
