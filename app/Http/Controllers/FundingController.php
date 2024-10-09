@@ -49,7 +49,7 @@ class FundingController extends Controller
         Log::info( $request->all() );
 
         $fluentFormsInputs = $request->all();
-        $bankStatementURL = $fluentFormsInputs['bankStatement'];
+        $bankStatementURL = $fluentFormsInputs['bankStatement'][0];
 
         $filename = basename($bankStatementURL[0]);
 //
