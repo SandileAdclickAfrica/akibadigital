@@ -475,13 +475,36 @@ class FundingController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+    public function processDownload2()
+    {
+        $fileUrl = 'https://smesouthafrica.co.za/wp-content/uploads/fluentform/ff-332bead3d2f935dcb54f86596abd6278-ff-profile.png';
+
+        $client = new Client();
+        // Make a GET request to fetch the file and pass it via webhook
+        try {
+
+            $filename = basename($fileUrl);
+
+            // Fetch the file
+            $response = $client->get($fileUrl, [
+                'sink' => storage_path('app/'.$filename) // Save the file temporarily
+            ]);
+
+            // Open the file for reading
+            $file = fopen(storage_path('app/'.$filename), 'r');
+
+            dd($file);
+
+        } catch (\Exception $e) {
+            dd( response()->json(['error' => $e->getMessage()], 500) );
+        }
+    }
 
     public function getFile( $fileURL )
     {
 //        $fileURL = 'https://smesouthafrica.co.za/wp-content/uploads/fluentform/ff-332bead3d2f935dcb54f86596abd6278-ff-profile.png';
         $response = Http::get($fileURL);
-        return $response->getBody()->getContents();
-
+        return $response->getBody();
     }
 
 }
