@@ -16,7 +16,7 @@ class FundingController extends Controller
 {
     public function index(Request $request)
     {
-        if( $request->method() == 'POST' ) {
+        if ($request->method() == 'POST') {
 
 
             // Validate the form data
@@ -64,49 +64,53 @@ class FundingController extends Controller
                 dd($validator->errors());
             }
 
-            dd( $request->all() );
+            dd($request->all());
 
-        }else{
+        } else {
             return view('funding');
         }
     }
 
     public function webhook(Request $request)
     {
-        if( $request->method() == 'POST' ) {
+        if ($request->method() == 'POST') {
 
             $data = $request->all();
 
             Log::info('Webhook received', $data);
 
-            $fundingAmount              = '25000';
-            $email                      = $data['email'];
-            $first_name                 = 'Sandile';
-            $last_name                  = 'Mazibuko';
-            $contact_number             = '0660060623';
-            $type                       = 'Business';
-            $step                       = 'SME South Africa';
-            $business_reg_number        = 'K20174557307';
+            $fundingAmount = $data['loan'];
+            $email = $data['email'];
+            $first_name = $data['first_name'];
+            $last_name = $data['last_name'];
+            $contact_number = $data['contact_number'];
+            $company_name = $data['company_name'];
 
-            $fundingType                = 'Working Capital (General)';
-            $loanDuration               = 'Very short term (3 months or less)';
-            $businessYears              = '0 - 1 Year';
-            $monthlyTurnOver            = 'R40k - R100k';
+            $type = 'Business';
+            $step = 'SME South Africa';
 
-            $bank                       = 'FNB';
-            $accountType                = 'cheque';
-            $accountOwner               = 'business';
+            $business_reg_number = $data['business_reg_number'];
 
-            $customerReference          = 'customerReference';
-            $IDnumber                   = '9208315233084';
-            $city                       = 'Gauteng';
-            $postalCode                 = '1724';
+            $fundingType = $data['fundingType'];
+            $loanDuration = $data['loanDuration'];
+            $businessYears = $data['businessYears'];
+            $monthlyTurnOver = $data['monthlyTurnOver'];
+
+            $bank = $data['bank'];
+            $accountType = $data['accountType'];
+
+            $accountOwner = 'business';
+
+            $customerReference = $data['customerReference'];
+            $IDnumber = $data['IDnumber'];
+            $city = $data['city'];
+            $postalCode = $data['postalCode'];
 
 //            $bankStatement              = $request->input('bankStatement');
 //            $identity                   = $request->input('identity');
 
-            $bankStatement              = $data['bankStatement'];
-            $identity                   = $data['identity'];
+            $bankStatement = $data['bankStatement'];
+            $identity = $data['identity'];
 
 
             $fluentFormsInputs = $request->all();
@@ -127,94 +131,94 @@ class FundingController extends Controller
 
             $postInput = [
                 [
-                    'name'     => 'loan',
+                    'name' => 'loan',
                     'contents' => $fundingAmount,
                 ],
                 [
-                    'name'     => 'email',
+                    'name' => 'email',
                     'contents' => $email,
                 ],
                 [
-                    'name'     => 'contact_number',
+                    'name' => 'contact_number',
                     'contents' => $contact_number,
                 ],
                 [
-                    'name'     => 'type',
+                    'name' => 'type',
                     'contents' => 'Business',
                 ],
                 [
-                    'name'     => 'step',
+                    'name' => 'step',
                     'contents' => 'SME South Africa',
                 ],
                 [
-                    'name'     => 'business_reg_number',
+                    'name' => 'business_reg_number',
                     'contents' => $business_reg_number,
                 ],
                 [
-                    'name'     => 'first_name',
+                    'name' => 'first_name',
                     'contents' => $first_name,
                 ],
                 [
-                    'name'     => 'last_name',
+                    'name' => 'last_name',
                     'contents' => $last_name,
                 ],
                 [
-                    'name'     => 'company_name',
-                    'contents' => 'Adclick Test',
+                    'name' => 'company_name',
+                    'contents' => $company_name,
                 ],
                 [
-                    'name'     => 'fundingType',
+                    'name' => 'fundingType',
                     'contents' => $fundingType,
                 ],
                 [
-                    'name'     => 'loanDuration',
+                    'name' => 'loanDuration',
                     'contents' => $loanDuration,
                 ],
                 [
-                    'name'     => 'businessYears',
+                    'name' => 'businessYears',
                     'contents' => $businessYears,
                 ],
                 [
-                    'name'     => 'monthlyTurnOver',
+                    'name' => 'monthlyTurnOver',
                     'contents' => $monthlyTurnOver,
                 ],
                 [
-                    'name'     => 'bank',
+                    'name' => 'bank',
                     'contents' => $bank,
                 ],
                 [
-                    'name'     => 'accountType',
+                    'name' => 'accountType',
                     'contents' => $accountType,
                 ],
                 [
-                    'name'     => 'accountOwner',
+                    'name' => 'accountOwner',
                     'contents' => 'business',
                 ],
                 [
-                    'name'     => 'customerReference',
+                    'name' => 'customerReference',
                     'contents' => $customerReference,
                 ],
                 [
-                    'name'     => 'IDnumber',
+                    'name' => 'IDnumber',
                     'contents' => $IDnumber,
                 ],
                 [
-                    'name'     => 'city',
+                    'name' => 'city',
                     'contents' => $city,
                 ],
                 [
-                    'name'     => 'postalCode',
+                    'name' => 'postalCode',
                     'contents' => $postalCode,
                 ],
                 [
-                    'name'     => 'identity', // Name of the file field in the form
-                    'contents' => $this->processDownload( $identityURL ),
+                    'name' => 'identity', // Name of the file field in the form
+                    'contents' => $this->processDownload($identityURL),
                     'filename' => basename($identityURL), // Optional: filename to be sent
                 ],
                 // Uncomment and add more files as needed
                 [
-                    'name'     => 'bankStatement', // Name of the file field in the form
-                    'contents' => $this->processDownload( $bankStatementURL ),
+                    'name' => 'bankStatement', // Name of the file field in the form
+                    'contents' => $this->processDownload($bankStatementURL),
                     'filename' => basename($bankStatementURL), // Optional: filename to be sent
                 ],
 
@@ -234,14 +238,14 @@ class FundingController extends Controller
             // Headers
             $headers = [
                 'X-Secret-Key' => 'Pb7n4nAe.Sqw8CLEkc0MAdr5sOOIMJZUvrXNS2tj3',
-                'Accept'      => 'application/json'
+                'Accept' => 'application/json'
             ];
 
             // Initialize Guzzle Client
             $client = new Client();
 
             try {
-                $response = $client->post( $apiURL , [
+                $response = $client->post($apiURL, [
                     'headers' => $headers,
                     'multipart' => $postInput,
                 ]);
@@ -249,7 +253,7 @@ class FundingController extends Controller
                 // Return the response data
                 return response()->json([
                     'status_code' => $response->getStatusCode(),
-                    'body' => json_decode( $response->getBody()->getContents() ), // Decode if the response is JSON
+                    'body' => json_decode($response->getBody()->getContents()), // Decode if the response is JSON
                 ]);
 
             } catch (RequestException $e) {
@@ -261,10 +265,6 @@ class FundingController extends Controller
                 }
             } catch (GuzzleException $e) {
             }
-        }
-
-        if ($request->isMethod('get')) {
-            return response()->json(['message' => 'This is a GET request']);
         }
     }
 
