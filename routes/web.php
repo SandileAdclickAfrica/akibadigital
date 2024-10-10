@@ -17,3 +17,4 @@ Route::match(['get', 'post'], '/', [FundingController::class, 'index'])->name('f
 //Route::post('/webhook', [FundingController::class, 'handleWebhook']);
 
 Route::post('/webhook', [FundingController::class, 'webhook']);
+Route::post('/test', [FundingController::class, 'webhookTest']);

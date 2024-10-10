@@ -268,6 +268,189 @@ class FundingController extends Controller
         }
     }
 
+    public function webhookTest(Request $request)
+    {
+        if ($request->method() == 'POST') {
+
+            $data = $request->all();
+
+            Log::info('Webhook received', $data);
+
+            $fundingAmount = $data['loan'];
+            $email = $data['email'];
+            $first_name = $data['first_name'];
+            $last_name = $data['last_name'];
+            $contact_number = $data['contact_number'];
+            $company_name = $data['company_name'];
+
+            $type = 'Business';
+            $step = 'SME South Africa';
+
+            $business_reg_number = $data['business_reg_number'];
+
+            $fundingType = $data['fundingType'];
+            $loanDuration = $data['loanDuration'];
+            $businessYears = $data['businessYears'];
+            $monthlyTurnOver = $data['monthlyTurnOver'];
+
+            $bank = $data['bank'];
+            $accountType = $data['accountType'];
+
+            $accountOwner = 'business';
+
+            $customerReference = $data['customerReference'];
+            $IDnumber = $data['IDnumber'];
+            $city = $data['city'];
+            $postalCode = $data['postalCode'];
+
+//            $bankStatement = $data['bankStatement'];
+//            $identity = $data['identity'];
+
+            $bankStatementURL = $data['bankStatement'][0];
+            $identityURL = $data['identity'][0];
+
+            $publicPath = public_path('/images/');
+
+            $apiURL = 'https://enterprise.akibaone.com/api/v2/widget/save/';
+
+            $postInput = [
+                [
+                    'name' => 'loan',
+                    'contents' => $fundingAmount,
+                ],
+                [
+                    'name' => 'email',
+                    'contents' => $email,
+                ],
+                [
+                    'name' => 'contact_number',
+                    'contents' => $contact_number,
+                ],
+                [
+                    'name' => 'type',
+                    'contents' => 'Business',
+                ],
+                [
+                    'name' => 'step',
+                    'contents' => 'SME South Africa',
+                ],
+                [
+                    'name' => 'business_reg_number',
+                    'contents' => $business_reg_number,
+                ],
+                [
+                    'name' => 'first_name',
+                    'contents' => $first_name,
+                ],
+                [
+                    'name' => 'last_name',
+                    'contents' => $last_name,
+                ],
+                [
+                    'name' => 'company_name',
+                    'contents' => $company_name,
+                ],
+                [
+                    'name' => 'fundingType',
+                    'contents' => $fundingType,
+                ],
+                [
+                    'name' => 'loanDuration',
+                    'contents' => $loanDuration,
+                ],
+                [
+                    'name' => 'businessYears',
+                    'contents' => $businessYears,
+                ],
+                [
+                    'name' => 'monthlyTurnOver',
+                    'contents' => $monthlyTurnOver,
+                ],
+                [
+                    'name' => 'bank',
+                    'contents' => $bank,
+                ],
+                [
+                    'name' => 'accountType',
+                    'contents' => $accountType,
+                ],
+                [
+                    'name' => 'accountOwner',
+                    'contents' => 'business',
+                ],
+                [
+                    'name' => 'customerReference',
+                    'contents' => $customerReference,
+                ],
+                [
+                    'name' => 'IDnumber',
+                    'contents' => $IDnumber,
+                ],
+                [
+                    'name' => 'city',
+                    'contents' => $city,
+                ],
+                [
+                    'name' => 'postalCode',
+                    'contents' => $postalCode,
+                ],
+                [
+                    'name' => 'identity', // Name of the file field in the form
+                    'contents' => $this->processDownload($identityURL),
+                    'filename' => basename($identityURL), // Optional: filename to be sent
+                ],
+                [
+                    'name' => 'bankStatement', // Name of the file field in the form
+                    'contents' => $this->processDownload($bankStatementURL),
+                    'filename' => basename($bankStatementURL), // Optional: filename to be sent
+                ],
+
+//                [
+//                    'name'     => 'identity', // Name of the file field in the form
+//                    'contents' => fopen($identity->getPathname(), 'r'), // File path
+//                    'filename' => $identity->getClientOriginalName(), // Optional: filename to be sent
+//                ],
+//                // Uncomment and add more files as needed
+//                [
+//                    'name'     => 'bankStatement', // Name of the file field in the form
+//                    'contents' => fopen($bankStatement->getPathname(), 'r'), // File path
+//                    'filename' => $bankStatement->getClientOriginalName(), // Optional: filename to be sent
+//                ],
+            ];
+
+            // Headers
+            $headers = [
+                'X-Secret-Key' => 'Pb7n4nAe.Sqw8CLEkc0MAdr5sOOIMJZUvrXNS2tj3',
+                'Accept' => 'application/json'
+            ];
+
+            // Initialize Guzzle Client
+            $client = new Client();
+
+            try {
+                $response = $client->post($apiURL, [
+                    'headers' => $headers,
+                    'multipart' => $postInput,
+                ]);
+
+                // Return the response data
+                return response()->json([
+                    'status_code' => $response->getStatusCode(),
+                    'body' => json_decode($response->getBody()->getContents()), // Decode if the response is JSON
+                ]);
+
+            } catch (RequestException $e) {
+                if ($e->hasResponse()) {
+                    $responseBody = $e->getResponse()->getBody()->getContents();
+                    return json_decode($responseBody, true);
+                } else {
+                    return $e->getMessage();
+                }
+            } catch (GuzzleException $e) {
+            }
+        }
+    }
+
     private function processDownload( $fileUrl )
     {
         $client = new Client();
