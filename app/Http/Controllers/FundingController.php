@@ -396,12 +396,14 @@ class FundingController extends Controller
                 ],
                 [
                     'name' => 'identity', // Name of the file field in the form
-                    'contents' => $this->processDownload($identityURL),
+//                    'contents' => $this->processDownload($identityURL),
+                    'contents' => $this->getFile( $identityURL ),
                     'filename' => basename($identityURL), // Optional: filename to be sent
                 ],
                 [
                     'name' => 'bankStatement', // Name of the file field in the form
-                    'contents' => $this->processDownload($bankStatementURL),
+//                    'contents' => $this->processDownload($bankStatementURL),
+                    'contents' => $this->getFile($bankStatementURL),
                     'filename' => basename($bankStatementURL), // Optional: filename to be sent
                 ],
 
@@ -472,6 +474,14 @@ class FundingController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+    public function getFile( $fileURL )
+    {
+//        $fileURL = 'https://smesouthafrica.co.za/wp-content/uploads/fluentform/ff-332bead3d2f935dcb54f86596abd6278-ff-profile.png';
+        $response = Http::get($fileURL);
+        return $response->getBody()->getContents();
+
     }
 
 }
