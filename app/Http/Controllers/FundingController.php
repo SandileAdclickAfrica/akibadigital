@@ -271,142 +271,145 @@ class FundingController extends Controller
 
     public function webhookTest(Request $request)
     {
+        $finalResponse = null;
+
         if ($request->method() == 'POST') {
 
             $data = $request->all();
 
-            Log::info('Webhook received', $data);
+            $bankStatementURL = $data['bankStatement'][0];
+            $identityURL = $data['identity'][0];
 
-            $fundingAmount = $data['loan'];
-            $email = $data['email'];
-            $first_name = $data['first_name'];
-            $last_name = $data['last_name'];
-            $contact_number = $data['contact_number'];
-            $company_name = $data['company_name'];
+            if ( $this->getFile( $bankStatementURL ) != null and $this->getFile( $identityURL ) != null ) {
+                //Log::info('Webhook received', $data);
 
-            $type = 'Business';
-            $step = 'SME South Africa';
+                $fundingAmount = $data['loan'];
+                $email = $data['email'];
+                $first_name = $data['first_name'];
+                $last_name = $data['last_name'];
+                $contact_number = $data['contact_number'];
+                $company_name = $data['company_name'];
 
-            $business_reg_number = $data['business_reg_number'];
+                $type = 'Business';
+                $step = 'SME South Africa';
 
-            $fundingType = $data['fundingType'];
-            $loanDuration = $data['loanDuration'];
-            $businessYears = $data['businessYears'];
-            $monthlyTurnOver = $data['monthlyTurnOver'];
+                $business_reg_number = $data['business_reg_number'];
 
-            $bank = $data['bank'];
-            $accountType = $data['accountType'];
+                $fundingType = $data['fundingType'];
+                $loanDuration = $data['loanDuration'];
+                $businessYears = $data['businessYears'];
+                $monthlyTurnOver = $data['monthlyTurnOver'];
 
-            $accountOwner = 'business';
+                $bank = $data['bank'];
+                $accountType = $data['accountType'];
 
-            $customerReference = $data['customerReference'];
-            $IDnumber = $data['IDnumber'];
-            $city = $data['city'];
-            $postalCode = $data['postalCode'];
+                $accountOwner = 'business';
+
+                $customerReference = $data['customerReference'];
+                $IDnumber = $data['IDnumber'];
+                $city = $data['city'];
+                $postalCode = $data['postalCode'];
 
 //            $bankStatement = $data['bankStatement'];
 //            $identity = $data['identity'];
 
-            $bankStatementURL = $data['bankStatement'][0];
-            $identityURL = $data['identity'][0];
+                $publicPath = public_path('/images/');
 
-            $publicPath = public_path('/images/');
+                $apiURL = 'https://enterprise.akibaone.com/api/v2/widget/save/';
 
-            $apiURL = 'https://enterprise.akibaone.com/api/v2/widget/save/';
-
-            $postInput = [
-                [
-                    'name' => 'loan',
-                    'contents' => $fundingAmount,
-                ],
-                [
-                    'name' => 'email',
-                    'contents' => $email,
-                ],
-                [
-                    'name' => 'contact_number',
-                    'contents' => $contact_number,
-                ],
-                [
-                    'name' => 'type',
-                    'contents' => 'Business',
-                ],
-                [
-                    'name' => 'step',
-                    'contents' => 'SME South Africa',
-                ],
-                [
-                    'name' => 'business_reg_number',
-                    'contents' => $business_reg_number,
-                ],
-                [
-                    'name' => 'first_name',
-                    'contents' => $first_name,
-                ],
-                [
-                    'name' => 'last_name',
-                    'contents' => $last_name,
-                ],
-                [
-                    'name' => 'company_name',
-                    'contents' => $company_name,
-                ],
-                [
-                    'name' => 'fundingType',
-                    'contents' => $fundingType,
-                ],
-                [
-                    'name' => 'loanDuration',
-                    'contents' => $loanDuration,
-                ],
-                [
-                    'name' => 'businessYears',
-                    'contents' => $businessYears,
-                ],
-                [
-                    'name' => 'monthlyTurnOver',
-                    'contents' => $monthlyTurnOver,
-                ],
-                [
-                    'name' => 'bank',
-                    'contents' => $bank,
-                ],
-                [
-                    'name' => 'accountType',
-                    'contents' => $accountType,
-                ],
-                [
-                    'name' => 'accountOwner',
-                    'contents' => 'business',
-                ],
-                [
-                    'name' => 'customerReference',
-                    'contents' => $customerReference,
-                ],
-                [
-                    'name' => 'IDnumber',
-                    'contents' => $IDnumber,
-                ],
-                [
-                    'name' => 'city',
-                    'contents' => $city,
-                ],
-                [
-                    'name' => 'postalCode',
-                    'contents' => $postalCode,
-                ],
-                [
-                    'name' => 'identity', // Name of the file field in the form
+                $postInput = [
+                    [
+                        'name' => 'loan',
+                        'contents' => $fundingAmount,
+                    ],
+                    [
+                        'name' => 'email',
+                        'contents' => $email,
+                    ],
+                    [
+                        'name' => 'contact_number',
+                        'contents' => $contact_number,
+                    ],
+                    [
+                        'name' => 'type',
+                        'contents' => 'Business',
+                    ],
+                    [
+                        'name' => 'step',
+                        'contents' => 'SME South Africa',
+                    ],
+                    [
+                        'name' => 'business_reg_number',
+                        'contents' => $business_reg_number,
+                    ],
+                    [
+                        'name' => 'first_name',
+                        'contents' => $first_name,
+                    ],
+                    [
+                        'name' => 'last_name',
+                        'contents' => $last_name,
+                    ],
+                    [
+                        'name' => 'company_name',
+                        'contents' => $company_name,
+                    ],
+                    [
+                        'name' => 'fundingType',
+                        'contents' => $fundingType,
+                    ],
+                    [
+                        'name' => 'loanDuration',
+                        'contents' => $loanDuration,
+                    ],
+                    [
+                        'name' => 'businessYears',
+                        'contents' => $businessYears,
+                    ],
+                    [
+                        'name' => 'monthlyTurnOver',
+                        'contents' => $monthlyTurnOver,
+                    ],
+                    [
+                        'name' => 'bank',
+                        'contents' => $bank,
+                    ],
+                    [
+                        'name' => 'accountType',
+                        'contents' => $accountType,
+                    ],
+                    [
+                        'name' => 'accountOwner',
+                        'contents' => 'business',
+                    ],
+                    [
+                        'name' => 'customerReference',
+                        'contents' => $customerReference,
+                    ],
+                    [
+                        'name' => 'IDnumber',
+                        'contents' => $IDnumber,
+                    ],
+                    [
+                        'name' => 'city',
+                        'contents' => $city,
+                    ],
+                    [
+                        'name' => 'postalCode',
+                        'contents' => $postalCode,
+                    ],
+                    [
+                        'name' => 'identity', // Name of the file field in the form
 //                    'contents' => $this->processDownload($identityURL),
-                    'contents' => $this->getFile( $identityURL ),
-                    'filename' => basename($identityURL), // Optional: filename to be sent
-                ],
-                [
-                    'name' => 'bankStatement', // Name of the file field in the form
+                        'contents' => $this->getFile( $identityURL ),
+                        'filename' => basename($identityURL), // Optional: filename to be sent
+                    ],
+                    [
+                        'name' => 'bankStatement', // Name of the file field in the form
 //                    'contents' => $this->processDownload($bankStatementURL),
-                    'contents' => $this->getFile($bankStatementURL),
-                    'filename' => basename($bankStatementURL), // Optional: filename to be sent
-                ],
+                        'contents' => $this->getFile($bankStatementURL),
+                        'filename' => basename($bankStatementURL), // Optional: filename to be sent
+                    ],
 
 //                [
 //                    'name'     => 'identity', // Name of the file field in the form
@@ -419,39 +422,53 @@ class FundingController extends Controller
 //                    'contents' => fopen($bankStatement->getPathname(), 'r'), // File path
 //                    'filename' => $bankStatement->getClientOriginalName(), // Optional: filename to be sent
 //                ],
-            ];
+                ];
 
-            // Headers
-            $headers = [
-                'X-Secret-Key' => 'Pb7n4nAe.Sqw8CLEkc0MAdr5sOOIMJZUvrXNS2tj3',
-                'Accept' => 'application/json'
-            ];
+                // Headers
+                $headers = [
+                    'X-Secret-Key' => 'Pb7n4nAe.Sqw8CLEkc0MAdr5sOOIMJZUvrXNS2tj3',
+                    'Accept' => 'application/json'
+                ];
 
-            // Initialize Guzzle Client
-            $client = new Client();
+                // Initialize Guzzle Client
+                $client = new Client();
 
-            try {
-                $response = $client->post($apiURL, [
-                    'headers' => $headers,
-                    'multipart' => $postInput,
-                ]);
+                try {
+                    $response = $client->post($apiURL, [
+                        'headers' => $headers,
+                        'multipart' => $postInput,
+                    ]);
 
-                // Return the response data
-                return response()->json([
-                    'status_code' => $response->getStatusCode(),
-                    'body' => json_decode($response->getBody()->getContents()), // Decode if the response is JSON
-                ]);
-
-            } catch (RequestException $e) {
-                if ($e->hasResponse()) {
-                    $responseBody = $e->getResponse()->getBody()->getContents();
-                    return json_decode($responseBody, true);
-                } else {
-                    return $e->getMessage();
+                    // Return the response data
+                    $finalResponse =  response()->json([
+                        'status_code' => $response->getStatusCode(),
+                        'body' => json_decode($response->getBody()->getContents()), // Decode if the response is JSON
+                    ]);
+                } catch (RequestException $e) {
+                    if ($e->hasResponse()) {
+                        $responseBody = $e->getResponse()->getBody()->getContents();
+                        return json_decode($responseBody, true);
+                    } else {
+                        return response()->json([
+                            'status' => 'error',
+                            'message' => $e->getMessage(),
+                        ], 500);
+                    }
+                } catch (GuzzleException $e) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => $e->getMessage(),
+                    ], 500);
                 }
-            } catch (GuzzleException $e) {
+            }else{
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Failed to download the file.',
+                ], 500);
             }
         }
+
+        return $finalResponse;
     }
 
     private function processDownload( $fileUrl )
@@ -501,13 +518,20 @@ class FundingController extends Controller
         }
     }
 
+    /**
+     * @param $fileURL
+     * @return false|resource|null
+     */
     public function getFile( $fileURL )
     {
-//        $fileURL = 'https://smesouthafrica.co.za/wp-content/uploads/fluentform/ff-332bead3d2f935dcb54f86596abd6278-ff-profile.png';
-        $filename = basename( $fileURL );
         $response = Http::get( $fileURL );
-        Storage::disk('local')->put('temp/' . $filename, $response->body());
-        return fopen(storage_path('app/temp/' . $filename), 'r');
+        if( $response->successful() ){
+            $filename = basename( $fileURL );
+            Storage::disk('local')->put('temp/' . $filename, $response->body());
+            return fopen(storage_path('app/temp/' . $filename), 'r');
+        }else{
+            return null;
+        }
     }
 
 }
