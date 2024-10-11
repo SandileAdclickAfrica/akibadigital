@@ -507,7 +507,7 @@ class FundingController extends Controller
         $filename = basename( $fileURL );
         $response = Http::get( $fileURL );
         Storage::disk('local')->put('temp/' . $filename, $response->body());
-        return storage_path('app/temp/' . $filename);
+        return storage_path('temp/' . $filename);
     }
 
 }
