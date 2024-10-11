@@ -9,6 +9,7 @@ use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use PhpParser\Node\Expr\Array_;
 
@@ -503,8 +504,10 @@ class FundingController extends Controller
     public function getFile( $fileURL )
     {
 //        $fileURL = 'https://smesouthafrica.co.za/wp-content/uploads/fluentform/ff-332bead3d2f935dcb54f86596abd6278-ff-profile.png';
-        $response = Http::get($fileURL);
-        return $response->getBody();
+        $filename = basename( $fileURL );
+        $response = Http::get( $fileURL );
+        Storage::disk('local')->put('temp/' . $filename, $response->body());
+        return storage_path('app/temp/' . $filename);
     }
 
 }
